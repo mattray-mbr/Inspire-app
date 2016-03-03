@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="inspire">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/styles.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	<script src="/js/ang.js"></script>
+</head>
+<body ng-controller="mainController">
+	<h3>{{greeting}}</h3>
+	<form ng-submit="addStuff()">
+		<label>name</label>
+		<input type="text" ng-model="user.name">
+		<label>email</label>
+		<input type="text" ng-model="user.email">
+		<label>message</label>
+		<input type="text" ng-model="user.message">
+		<label></label>
+		<input type="submit" class="btn btn-success">
+	</form>
+	<div>{{display}}</div>
+	<!-- <div ng-repeat="person in display">
+		<h1>{{person.name}}</h1>
+		<p>{{person.email}}</p>
+		<p>{{person.message}}</p>
+	</div> -->
+</body>
+</html>
