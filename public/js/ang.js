@@ -4,15 +4,16 @@ var app = angular.module('inspire', [])
 		var s = $scope
 
 		s.greeting = "hello"
-		// var person = {
-		// 	name: s.user.name,
-		// 	email: s.user.email,
-		// 	message: s.user.message,
-		// }
+		
 
 
 		s.addStuff = function(){
-			$http.post('/more', person).then(function(returnData){
+			var person = {
+			username: s.user.name,
+			email: s.user.email,
+			password: s.user.password,
+		}
+			$http.post('/api/userBase', person).then(function(returnData){
 				$scope.display = returnData.data
 			})
 			

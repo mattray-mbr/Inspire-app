@@ -1,43 +1,59 @@
-// Requires \\
+// initial setup
 var express = require('express');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
-var passport = require('passport');
-// var sessions = require('express-sessions');
-var bcrypt = require('bcryptjs');
-var passportLocal = require('passport-local');
 var routes = require('./controllers/routes.js')
 
-// Create Express App Object \\
+//passport stuff
+var passport = require('passport');
+var passportConfig = require('./models/passportConfig.js')
+
 var app = express();
+mongoose.connect('mongodb://localhost/inspire'); //connection to db(db name is inspire, colletion is users)
 
-mongoose.connect('mongodb://localhost/inspire');
-//db name is earth collection name is countries
+var session = require('express-session');
+app.sessionMiddleware = session({
+	secret: 'setting up server and stuff', //doesn't really matter whats in here
+	resave: false,
+	saveUninitialized: true
+})
+app.use(app.sessionMiddleware)
+/** End Express Session Setup **/
+
+//----------- passport hook ---------------
+app.use(passport.initialize());
+app.use(passport.session());
 
 
-// Application Configuration \\
+// Application Configuration 
 app.use(logger('dev')); //no idea what this does
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
-// Routes \\
+//-------- middleware -------------
+var passportMiddleware = {
+	authCheck : function(req, res, next){
+		if(req.isAuthenticated()){  //isAuthenticated is a built in method
+			next()
+		} else {
+			res.send('user is not authenticated')
+		}
+	}
+}
 
+//--------------- Routes --------------- 
+//initial setup route
 app.get('/', function(req, res) {
 	res.sendFile('html/index.html', {root : './public'});
 });
 
+app.post('/api/userBase', routes.addNewUser)
 
-//pulls in the controllers functions for concise code in this file
-app.post('/addStuff', routes.addData)
+// app.post('/api/userBase', routes.addUser)
 
-
-
-
-
-
-// Creating Server and Listening for Connections \\
+// Creating Server and Listening for Connections 
 var port = 3173
 app.listen(port, function(){
   console.log('Server running on port ' + port);
