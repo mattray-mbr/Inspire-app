@@ -5,7 +5,7 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var routes = require('./controllers/routes.js')
 
-//passport stuff
+//passport setup
 var passport = require('passport');
 var passportConfig = require('./models/passportConfig.js')
 
@@ -18,8 +18,7 @@ app.sessionMiddleware = session({
 	resave: false,
 	saveUninitialized: true
 })
-app.use(app.sessionMiddleware)
-/** End Express Session Setup **/
+app.use(app.sessionMiddleware) 
 
 //----------- passport hook ---------------
 app.use(passport.initialize());
@@ -32,6 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
+
 //-------- middleware -------------
 var passportMiddleware = {
 	authCheck : function(req, res, next){
@@ -42,6 +42,7 @@ var passportMiddleware = {
 		}
 	}
 }
+
 
 //--------------- Routes --------------- 
 //initial setup route

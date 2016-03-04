@@ -9,7 +9,7 @@ var app = angular.module('inspire', [])
 
 		s.addStuff = function(){
 			var person = {
-			username: s.user.name,
+			username: s.user.username,
 			email: s.user.email,
 			password: s.user.password,
 		}
