@@ -36,11 +36,21 @@ app.use(express.static(__dirname + '/public'));
 var passportMiddleware = {
 	authCheck : function(req, res, next){
 		if(req.isAuthenticated()){  //isAuthenticated is a built in method
+			console.log('move on to next step')
 			next()
 		} else {
+			console.log('user is not authenticated')
 			res.send('user is not authenticated')
 		}
 	}
+}
+
+app.isAuthenticatedAjax = function(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	console.log('auth block')
+	res.redirect('/');
 }
 
 
@@ -52,7 +62,33 @@ app.get('/', function(req, res) {
 
 app.post('/api/userBase', routes.addNewUser)
 
-// app.post('/api/userBase', routes.addUser)
+app.post('/api/logIn', routes.logInUser)
+
+app.get('/api/browse', passportMiddleware.authCheck, function(req, res){
+	res.sendFile('browse.html', {root : './public/html/'})
+})
+
+app.get('/api/logOut', routes.logOutUser)
+
+//if user exists redirect to profile page
+app.get('/api/profiles/:userID',app.isAuthenticatedAjax, function(req, res){ //middleware to see if user is logged in
+	console.log('test one')
+	res.sendFile('profile.html', {root : './public/html'})
+})
+app.get('/api/profiles/',app.isAuthenticatedAjax, function(req, res){ //middleware to see if user is logged in
+	res.sendFile('profile.html', {root : './public/html'})
+})
+
+app.get('/api/me', app.isAuthenticatedAjax, function(req, res){
+	console.log('me')
+    res.send({user:req.user})
+})
+
+// app.get('/profiles/:userID', function(req, res){
+// 	res.sendFile('profile.html', {root: './public/html'})
+// })
+
+app.get('/profiles/:userID', routes.getUser)
 
 // Creating Server and Listening for Connections 
 var port = 3173
@@ -60,3 +96,28 @@ app.listen(port, function(){
   console.log('Server running on port ' + port);
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

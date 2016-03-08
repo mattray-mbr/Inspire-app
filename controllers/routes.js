@@ -25,6 +25,44 @@ function addNewUser(req, res){
 	})	
 }
 
+function logInUser(req, res, next){
+	passport.authenticate('local', function(err, user, info){
+		if(err){return next(err); }
+		if(!user) {return res.send({error: 'cannot login user'}); }
+		req.logIn(user, function(err) {
+			if(err) { return next(err); }
+			return res.send({success: 'user was loged in'});
+		})
+	})(req, res, next);
+}
+
+function logOutUser(req, res, next){
+		req.logout(user, function(err){
+			if(err) {return next(err);}
+			return res.send({success: 'user was logged out'})
+		})
+}
+
+function userProfile(req, res){
+	res.sendFile('profile.html', {root : './public/html/'})
+}
+
+function getUser(req, res){
+	console.log('retrieving user profile')
+	users.findOne({_id: req.params.userID})
+	.exec(function(err, doc){
+		console.log(doc)
+		res.send(doc)
+	})
+}
+
+
+
 module.exports = {
-	addNewUser: addNewUser,
+	addNewUser      : addNewUser,
+	logInUser       : logInUser,
+	userProfile     : userProfile,
+	getUser         : getUser,
+	logOutUser      : logOutUser,
+	
 }

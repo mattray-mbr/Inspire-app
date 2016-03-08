@@ -10,20 +10,34 @@
 </head>
 <body ng-controller="mainController">
 	<h3>{{greeting}}</h3>
-	<form ng-submit="addStuff()">
-		<label>name</label>
-		<input type="text" ng-model="user.username">
-		<label>email</label>
-		<input type="text" ng-model="user.email">
-		<label>message</label>
-		<input type="password" ng-model="user.password">
-		<label></label>
-		<input type="submit" class="btn btn-success">
-	</form>
-	<div ng-repeat="person in display">
-		<h1>Hello, {{person.username}}</h1>
-		<p>{{person.email}}</p>
-		<p>{{person.password}}</p>
+	<p ng-show="ifUser">currently logged in as {{user.username}}</p>
+	<div class="login-border" ng-hide="loggedIn"> <!-- shows login if no user logged in -->
+		<h2>Sign up</h2>
+		<form ng-submit="signUp()">
+			<label>username</label>
+			<input type="text" ng-model="newUser.username">
+			<label>email</label>
+			<input type="text" ng-model="newUser.email">
+			<label>password</label>
+			<input type="password" ng-model="newUser.password">
+			<label></label>
+			<input type="submit" class="btn btn-success" value="sign Up">
+		</form>
+		<h2>log in</h2>
+		<form ng-submit="logIn()">
+			<label>username</label>
+			<input type="text" ng-model="user.username">
+			<label>password</label>
+			<input type="password" ng-model="user.password">
+			<label class="error">{{display}}</label>
+			<input type="submit" class="btn btn-success" value="log In">
+		</form>
+		<br>
 	</div>
+	
+	<h3>{{checkUser}}</h3>
+	
+	<button ng-click="browse()">load items</button>
+	<button><a href="/api/profiles/{{userID}}">Profile</a></button>
 </body>
 </html>

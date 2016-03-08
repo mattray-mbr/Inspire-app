@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="inspire">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/styles.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	<script src="/js/ang.js"></script>
+</head>
+<body ng-controller="profileController">
+	<h2>Profile page</h2>
+	<h4>currently logged in as {{loggedInUser.username}}</h4>
+	<button class="btn btn-warning" ng-click="logOut()">Log Out</button>
+</body>
+</html>
