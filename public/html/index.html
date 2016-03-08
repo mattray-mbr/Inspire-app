@@ -9,11 +9,20 @@
 	<script src="/js/ang.js"></script>
 </head>
 <body ng-controller="mainController">
-	<h3>{{greeting}}</h3>
+	<header class="main-head">
+		<h1 class="pull-left">{{greeting}}</h1>
+		<form class="login-form" ng-submit="logIn()">
+			<label>username</label>
+			<input type="text" ng-model="user.username">
+			<label>password</label>
+			<input type="password" ng-model="user.password">
+			<input type="submit" class="btn btn-success" value="log In">
+		</form>
+	</header>
 	<p ng-show="ifUser">currently logged in as {{user.username}}</p>
 	<div class="login-border" ng-hide="loggedIn"> <!-- shows login if no user logged in -->
-		<h2>Sign up</h2>
-		<form ng-submit="signUp()">
+		<form class="signup-form" ng-submit="signUp()">
+			<h2>Sign up</h2>
 			<label>username</label>
 			<input type="text" ng-model="newUser.username">
 			<label>email</label>
@@ -23,20 +32,8 @@
 			<label></label>
 			<input type="submit" class="btn btn-success" value="sign Up">
 		</form>
-		<h2>log in</h2>
-		<form ng-submit="logIn()">
-			<label>username</label>
-			<input type="text" ng-model="user.username">
-			<label>password</label>
-			<input type="password" ng-model="user.password">
-			<label class="error">{{display}}</label>
-			<input type="submit" class="btn btn-success" value="log In">
-		</form>
-		<br>
 	</div>
-	
 	<h3>{{checkUser}}</h3>
-	
 	<button ng-click="browse()">load items</button>
 	<button><a href="/api/profiles/{{userID}}">Profile</a></button>
 </body>

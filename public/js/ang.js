@@ -3,7 +3,7 @@ var app = angular.module('inspire', [])
 	app.controller('mainController', ['$scope', '$http', function($scope, $http){
 		//initial declarations
 		var s = $scope
-		s.greeting = "hello"
+		s.greeting = "Title"
 
 		//initial request to see if any user is logged in
 		function initial(){	 //put inside a function so that I can call it on login button

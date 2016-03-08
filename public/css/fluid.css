@@ -11,6 +11,11 @@ header {
 	width: 100%;
 	background-color: #3ef;
 }
+.main-head {
+	background-color: #cecece;
+	padding: 10px;
+	height: 100px;
+}
 #main-container {
 	padding-left: 200px; /*left column width*/
 	padding-right: 150px; /*right column width*/
@@ -21,26 +26,31 @@ header {
 }
 #content {
 	width: 100%;
-	background-color: green;
+	background-color: #333;
 	padding: 10px;
-	height: 500px;
+	min-height: 780px;
 }
 #options {
 	width: 200px; 
 	right: 200px; /*left column width */
 	margin-left: -100%;
-	background-color: orange;
+	background-color: #ebebeb;
 	padding: 0 10px;
-	height: 500px;
+	min-height: 780px;
 }
 #right {
 	width: 150px; 
 	margin-right: -150px; /*right colunm width*/
-	background-color: orange;
+	background-color: #666;
 	padding: 0 10px;
-	height: 500px;
+	min-height: 780px;
 }
 footer {
 	clear: both;
-	background-color: #3ef;
+	background-color: #eef;
+}
+.main-content {
+	width: 100%;
+	height: 75px;
+	background-color: #3c3c3c;
 }
