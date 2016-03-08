@@ -3,17 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<!-- bootstrap -->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="/css/fluid.css">
+	
+	<link rel="stylesheet" href="/css/styles.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.min.js"></script>
 	<script src="/js/ang.js"></script>
 </head>
 <body ng-controller="profileController">
 	<header class="main-head">
 		<h1 class="pull-left">title</h1>
-		<button class="btn btn-warning pull-right" ng-click="logOut()">Log Out</button>
+		<button class="btn btn-warning pull-right"><a href="/api/logOut">Log Out</a></button>
 	</header>
 	<div id="main-container">
 		<section id="content" class="column">
@@ -22,7 +25,6 @@
 			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
 			 	Create New Post
 			</button>
-
 			<!-- Modal -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			  <div class="modal-dialog" role="document">
@@ -32,17 +34,24 @@
 			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
 			      </div>
 			      <div class="modal-body">
-			        ...
+					<!-- add a new post  -->
+			        <form ng-submit="newPost()">
+			        	<label>Post type(num)</label>
+			        	<input type="text" ng-model="post.type">
+			        	<label>message</label>
+			        	<input type="text" ng-model="post.message">
+			        	<input type="submit">
+			        </form>
+					<!-- end of post form -->
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Save changes</button>
 			      </div>
 			    </div>
 			  </div>
 			</div>
 
-			<div class="posts" ng-repeat="post in feed">
+			<div class="posts" ng-repeat="posts in feed">
 				<div>{{post}}</div>
 			</div>
 		</section>

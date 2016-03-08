@@ -1,4 +1,16 @@
-var app = angular.module('inspire', [])
+var app = angular.module('inspire', ['ngRoute'])
+
+app.config(function($routeProvider){
+	$routeProvider
+		.when('/', {
+			templateUrl : '/html/index.html',
+			controller  : 'mainController'
+		})
+		.when('/about', {
+			templateUrl : '/html/about.html',
+			controller  : 'mainController'
+		})
+})
 //single module for app
 	app.controller('mainController', ['$scope', '$http', function($scope, $http){
 		//initial declarations
@@ -66,6 +78,8 @@ var app = angular.module('inspire', [])
 
 	app.controller('profileController', ['$scope', '$http', function($scope, $http){
 
+
+
 		var userID = window.location.pathname.split('/').pop()
 		console.log(userID)
 		$http.get('/profiles/' + userID).then(function(serverResponse){
@@ -75,9 +89,17 @@ var app = angular.module('inspire', [])
 
 		$scope.logOut = function(){
 				console.log('trying to log out')
-			$http.get('/api/logOut').then(window.location = '/')
-				
-			
+			$http.get('/api/logOut')
+		}
+
+		$scope.newPost = function(){
+			var post = {
+				type      : $scope.post.type,
+				message   : $scope.post.message,
+			}
+			$http.post('/api/newPost', post).then(function(returnData){
+				$scope.feed = returnData.data
+			})
 		}
 
 	}])

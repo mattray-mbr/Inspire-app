@@ -37,10 +37,9 @@ function logInUser(req, res, next){
 }
 
 function logOutUser(req, res, next){
-		req.logout(user, function(err){
-			if(err) {return next(err);}
-			return res.send({success: 'user was logged out'})
-		})
+		req.logOut()
+		console.log('user has been logged out')
+		res.redirect('/')
 }
 
 function userProfile(req, res){
@@ -56,6 +55,21 @@ function getUser(req, res){
 	})
 }
 
+function postItem(req, res){
+	console.log('making a new post')
+	var post = new posts({
+		username : 'matt',
+		type     : req.body.type,
+		message  : req.body.message,
+	})
+	post.save(function(err, docs){
+		if(err){
+			console.log(err)
+		}
+		res.send()
+	})
+}
+
 
 
 module.exports = {
@@ -64,5 +78,6 @@ module.exports = {
 	userProfile     : userProfile,
 	getUser         : getUser,
 	logOutUser      : logOutUser,
+	postItem        : postItem,
 	
 }

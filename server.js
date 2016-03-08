@@ -57,7 +57,7 @@ app.isAuthenticatedAjax = function(req, res, next){
 //--------------- Routes --------------- 
 //initial setup route
 app.get('/', function(req, res) {
-	res.sendFile('html/index.html', {root : './public'});
+	res.sendFile('html/shell.html', {root : './public'});
 });
 
 app.post('/api/userBase', routes.addNewUser)
@@ -68,7 +68,10 @@ app.get('/api/browse', passportMiddleware.authCheck, function(req, res){
 	res.sendFile('browse.html', {root : './public/html/'})
 })
 
-app.get('/api/logOut', routes.logOutUser)
+app.get('/api/logOut', function(req, res){
+	req.logOut()
+	res.redirect('/')
+})
 
 //if user exists redirect to profile page
 app.get('/api/profiles/:userID',app.isAuthenticatedAjax, function(req, res){ //middleware to see if user is logged in
@@ -83,6 +86,8 @@ app.get('/api/me', app.isAuthenticatedAjax, function(req, res){
 	console.log('me')
     res.send({user:req.user})
 })
+
+app.post('/api/newPost', app.isAuthenticatedAjax, routes.postItem)
 
 // app.get('/profiles/:userID', function(req, res){
 // 	res.sendFile('profile.html', {root: './public/html'})

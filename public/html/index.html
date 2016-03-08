@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="inspire">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="/css/styles.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
-	<script src="/js/ang.js"></script>
-</head>
-<body ng-controller="mainController">
+<!-- template for home landing page -->
 	<header class="main-head">
 		<h1 class="pull-left">{{greeting}}</h1>
 		<form class="login-form" ng-submit="logIn()">
@@ -36,5 +26,4 @@
 	<h3>{{checkUser}}</h3>
 	<button ng-click="browse()">load items</button>
 	<button><a href="/api/profiles/{{userID}}">Profile</a></button>
-</body>
-</html>
+	<ng-include src=" '/html/footer.html' "></ng-include>
