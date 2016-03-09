@@ -19,8 +19,13 @@
 	<script src="/js/ang.js"></script>
 </head>
 <body>
+<!-- include header in all pages -->
+<div ng-controller="headerController">
+	<ng-include src=" '/html/header.html' "></ng-include>
+</div>
 <!-- calls angular to drop template here -->
 <div ng-view></div> 
-	
+<!-- include footer in all pages -->
+<ng-include src=" '/html/footer.html' "></ng-include>
 </body>
 </html>

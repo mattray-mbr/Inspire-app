@@ -14,18 +14,11 @@
 	<script src="/js/ang.js"></script>
 </head>
 <body ng-controller="profileController">
-	<header class="main-head">
-		<h1 class="pull-left">title</h1>
-		<button class="btn btn-warning pull-right"><a href="/api/logOut">Log Out</a></button>
-		<h4 class="pull-left clear">currently logged in as {{loggedInUsername}}</h4>
-	</header>
 	<div id="main-container">
 		<section id="content" class="column">
 
 			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-			 	Create New Post
-			</button>
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Create New Post</button>
 			<!-- Modal -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			  <div class="modal-dialog" role="document">
@@ -56,6 +49,9 @@
 				<h4>{{posts.name}}</h4>
 				<h4>{{posts.type}}</h4>
 				<h4>{{posts.message}}</h4>
+				<h4>{{posts.flagged}}</h4>
+				<h4>{{posts.rating}}</h4>
+				<h4>{{posts.archived}}</h4>
 			</div>
 		</section>
 		<section id="options" class="column">

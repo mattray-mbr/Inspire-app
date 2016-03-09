@@ -63,6 +63,9 @@ function postItem(req, res){
 		name     : req.body.name,  
 		type     : req.body.type,
 		message  : req.body.message,
+		rating   : 0,
+		flagged  : false,
+		archieved: false,
 	})
 	post.save(function(err, docs){
 		if(err){

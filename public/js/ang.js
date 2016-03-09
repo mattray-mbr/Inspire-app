@@ -19,16 +19,25 @@ app.config(function($routeProvider){
 			templateUrl : '/html/contact.html',
 			controller  : 'mainController'
 		})
+		.when('/admin', {
+			templateUrl : '/html/admin.html',
+			controller  : 'mainController'
+		})
 		.when('/profiles/:userID', {
 			templateUrl : '/html/profile.html',
-			controller  : 'profileController',
+			controller  : 'profileController'
+		})
+		.when('/categories', {
+			templateUrl : '/html/categories.html',
+			controller  : 'mainController'
 		})
 })
+
 //single module for app
 	app.controller('mainController', ['$scope', '$http', function($scope, $http){
 		//initial declarations
-		var s = $scope
-		s.greeting = "Title"
+		$scope.noUser = true;
+		$scope.ifUser = false;
 
 		//initial request to see if any user is logged in
 		function initial(){	 //put inside a function so that I can call it on login button and sign up
@@ -39,12 +48,11 @@ app.config(function($routeProvider){
 	            console.log('user info', returnData)
 	            if (returnData.data.user) {
 	            	console.log('user name', returnData.data.user.username)
-	            	s.userNAME = returnData.data.user.username
-	                // s.loggedIn = true
-	                // s.loggedOut = true
-
+	            	$scope.userNAME = returnData.data.user.username
+	                $scope.noUser = false;
+	                $scope.ifUser = true;
 	                //redirect to profile page here
-	                window.location.href = '/api/profiles/'+s.userNAME
+	                window.location.href = '/api/profiles/'+$scope.userNAME
 	            } else {
 	            	console.log('no user found')
 	            	//no user so stay on page
@@ -53,34 +61,21 @@ app.config(function($routeProvider){
 		}
 		initial()//running function automatically when page loads
 
-		s.signUp = function(){
+		$scope.signUp = function(){
 			var person = {
-				username: s.newUser.username,
-				email: s.newUser.email,
-				password: s.newUser.password,
+				username: $scope.newUser.username,
+				email: $scope.newUser.email,
+				password: $scope.newUser.password,
 			}
 			$http.post('/api/userBase', person).then(function(returnData){
 				$scope.display = returnData.data
-				s.ifUser = true;
 				initial() 
 			})
 		}
 
-		s.logIn = function(){
-			var user = {
-				username: s.user.username,
-				password: s.user.password,
-			}
-			$http.post('/api/logIn', user).then(function(returnData){
-				s.display = returnData.data
-				initial()
-			})
-			
-		}
-
 		function sendProfile(){
-			console.log('userId', s.userID)
-			$http.get('/api/profiles/'+ s.userID).then(function(returnData){
+			console.log('userId', $scope.userID)
+			$http.get('/api/profiles/'+ $scope.userID).then(function(returnData){
 				console.log('redirecting')
 			})
 		}
@@ -107,6 +102,7 @@ app.config(function($routeProvider){
 			//automatically gets posts in the feed
 			$http.get('/api/getposts').then(function(returnData){
 				$scope.feed = returnData.data
+				
 			})
 
 		var userNAME = window.location.pathname.split('/').pop()
@@ -115,10 +111,7 @@ app.config(function($routeProvider){
 			$scope.loggedInUser = serverResponse.data
 		})
 
-		$scope.logOut = function(){
-				console.log('trying to log out')
-			$http.get('/api/logOut')
-		}
+		
 
 		$scope.newPost = function(){
 			var item = {
@@ -132,9 +125,37 @@ app.config(function($routeProvider){
 			})
 		}
 
-		
+		 
 
 	}])
+
+
+	app.controller('headerController', ['$scope', '$http', function($scope, $http){
+
+		$scope.ifUser = false;
+		$scope.user = {} //!important! needs to initialize as an empty objects in order to bind values to it
+
+		$scope.logIn = function(){
+			var user = {
+				username: $scope.user.username,
+				password: $scope.user.password,
+			}
+			$http.post('/api/logIn', user).then(function(returnData){
+				$scope.display = returnData.data
+				$scope.ifUser = true;
+			})
+		}
+
+		$scope.logOut = function(){
+				console.log('trying to log out')
+			$http.get('/api/logOut').then(function(){
+				$scope.ifUser = false
+			})
+		}
+
+
+	}])
+
 
 
 

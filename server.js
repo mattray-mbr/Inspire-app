@@ -51,10 +51,10 @@ app.isAuthenticatedAjax = function(req, res, next){
 	}
 	console.log('auth block')
 	res.redirect('/');
-}
+} 
 
 
-//--------------- Routes --------------- 
+//--------------- Routes ---------------  
 //initial setup route
 app.get('/', function(req, res) {
 	res.sendFile('html/shell.html', {root : './public'});
