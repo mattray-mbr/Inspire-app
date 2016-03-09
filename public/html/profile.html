@@ -17,6 +17,7 @@
 	<header class="main-head">
 		<h1 class="pull-left">title</h1>
 		<button class="btn btn-warning pull-right"><a href="/api/logOut">Log Out</a></button>
+		<h4 class="pull-left clear">currently logged in as {{loggedInUsername}}</h4>
 	</header>
 	<div id="main-container">
 		<section id="content" class="column">
@@ -52,7 +53,9 @@
 			</div>
 			<!-- end of modal -->
 			<div class="posts" ng-repeat="posts in feed">
-				<div>{{posts.message}}</div>
+				<h4>{{posts.name}}</h4>
+				<h4>{{posts.type}}</h4>
+				<h4>{{posts.message}}</h4>
 			</div>
 		</section>
 		<section id="options" class="column">

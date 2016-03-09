@@ -1,8 +1,8 @@
 var mongoose = require('mongoose')
 
 var postSchema = mongoose.Schema({
-	username     : {type: String, required: true},
-	type         : Number, 
+	name         : {type: String, required: true},
+	type         : {type: Number, required: true},
 	message      : {type: String, required: true},
 })
 

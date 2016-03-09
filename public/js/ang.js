@@ -1,6 +1,7 @@
 var app = angular.module('inspire', ['ngRoute'])
 
 app.config(function($routeProvider){
+	//all the angular front end routes
 	$routeProvider
 		.when('/', {
 			templateUrl : '/html/index.html',
@@ -8,6 +9,14 @@ app.config(function($routeProvider){
 		})
 		.when('/about', {
 			templateUrl : '/html/about.html',
+			controller  : 'mainController'
+		})
+		.when('/tos', {
+			templateUrl : '/html/tos.html',
+			controller  : 'mainController'
+		})
+		.when('/contact', {
+			templateUrl : '/html/contact.html',
 			controller  : 'mainController'
 		})
 		.when('/profiles/:userID', {
@@ -22,20 +31,20 @@ app.config(function($routeProvider){
 		s.greeting = "Title"
 
 		//initial request to see if any user is logged in
-		function initial(){	 //put inside a function so that I can call it on login button
+		function initial(){	 //put inside a function so that I can call it on login button and sign up
 			$http({
 				method  : 'GET',
 				url     : '/api/me',
 			}).then(function(returnData){
 	            console.log('user info', returnData)
 	            if (returnData.data.user) {
-	            	console.log('user id', returnData.data.user._id)
-	            	s.userID = returnData.data.user._id
+	            	console.log('user name', returnData.data.user.username)
+	            	s.userNAME = returnData.data.user.username
 	                // s.loggedIn = true
 	                // s.loggedOut = true
 
 	                //redirect to profile page here
-	                window.location.href = '/api/profiles/'+s.userID
+	                window.location.href = '/api/profiles/'+s.userNAME
 	            } else {
 	            	console.log('no user found')
 	            	//no user so stay on page
@@ -82,16 +91,26 @@ app.config(function($routeProvider){
 
 	app.controller('profileController', ['$scope', '$http', function($scope, $http){
 
-
 		$scope.feed = []
 
+		//get data about the current user logged in
+		$http({
+				method  : 'GET',
+				url     : '/api/me',
+			}).then(function(returnData){
+	            console.log('user info', returnData)
+	            $scope.loggedInUser = returnData.data
+	            $scope.loggedInUsername = $scope.loggedInUser.user.username
+	        })
+
+
+			//automatically gets posts in the feed
 			$http.get('/api/getposts').then(function(returnData){
 				$scope.feed = returnData.data
 			})
 
-		var userID = window.location.pathname.split('/').pop()
-		console.log(userID)
-		$http.get('/profiles/' + userID).then(function(serverResponse){
+		var userNAME = window.location.pathname.split('/').pop()
+		$http.get('/profiles/' + userNAME).then(function(serverResponse){
 			console.log(serverResponse)
 			$scope.loggedInUser = serverResponse.data
 		})
@@ -103,7 +122,7 @@ app.config(function($routeProvider){
 
 		$scope.newPost = function(){
 			var item = {
-				username  : userID,
+				name      : userNAME,
 				type      : $scope.post.type,
 				message   : $scope.post.message,
 			}

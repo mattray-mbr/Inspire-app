@@ -60,7 +60,7 @@ function postItem(req, res){
 	console.log('making a new post')
 	console.log(req.body)
 	var post = new posts({
-		username : 'mattt',  //duplication error with username when saved to db
+		name     : req.body.name,  
 		type     : req.body.type,
 		message  : req.body.message,
 	})
