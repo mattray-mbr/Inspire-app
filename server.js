@@ -89,6 +89,8 @@ app.get('/api/me', app.isAuthenticatedAjax, function(req, res){
 
 app.post('/api/newPost', app.isAuthenticatedAjax, routes.postItem)
 
+app.get('/api/getposts', routes.getposts)
+
 // app.get('/profiles/:userID', function(req, res){
 // 	res.sendFile('profile.html', {root: './public/html'})
 // })

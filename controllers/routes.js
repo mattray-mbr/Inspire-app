@@ -1,4 +1,5 @@
 var users = require('../models/userSchema.js')
+var posts = require('../models/postsSchema.js')
 var bcrypt = require('bcryptjs') //bcrypt is required here and in the passportConfig file
 var passport =  require('passport')
 
@@ -57,16 +58,24 @@ function getUser(req, res){
 
 function postItem(req, res){
 	console.log('making a new post')
+	console.log(req.body)
 	var post = new posts({
-		username : 'matt',
+		username : 'mattt',  //duplication error with username when saved to db
 		type     : req.body.type,
 		message  : req.body.message,
 	})
 	post.save(function(err, docs){
 		if(err){
-			console.log(err)
+			console.log('error saving post in db', err)
 		}
-		res.send()
+		res.send(post)
+	})
+}
+
+function getposts(req, res){
+	console.log('retrieving all posts')
+	posts.find({}, function(err, doc){
+		res.send(doc)
 	})
 }
 
@@ -79,5 +88,6 @@ module.exports = {
 	getUser         : getUser,
 	logOutUser      : logOutUser,
 	postItem        : postItem,
+	getposts        : getposts,
 	
 }

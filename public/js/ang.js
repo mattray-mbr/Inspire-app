@@ -10,6 +10,10 @@ app.config(function($routeProvider){
 			templateUrl : '/html/about.html',
 			controller  : 'mainController'
 		})
+		.when('/profiles/:userID', {
+			templateUrl : '/html/profile.html',
+			controller  : 'profileController',
+		})
 })
 //single module for app
 	app.controller('mainController', ['$scope', '$http', function($scope, $http){
@@ -31,7 +35,7 @@ app.config(function($routeProvider){
 	                // s.loggedOut = true
 
 	                //redirect to profile page here
-	                window.location = '/api/profiles/'+s.userID
+	                window.location.href = '/api/profiles/'+s.userID
 	            } else {
 	            	console.log('no user found')
 	            	//no user so stay on page
@@ -79,6 +83,11 @@ app.config(function($routeProvider){
 	app.controller('profileController', ['$scope', '$http', function($scope, $http){
 
 
+		$scope.feed = []
+
+			$http.get('/api/getposts').then(function(returnData){
+				$scope.feed = returnData.data
+			})
 
 		var userID = window.location.pathname.split('/').pop()
 		console.log(userID)
@@ -93,14 +102,18 @@ app.config(function($routeProvider){
 		}
 
 		$scope.newPost = function(){
-			var post = {
+			var item = {
+				username  : userID,
 				type      : $scope.post.type,
 				message   : $scope.post.message,
 			}
-			$http.post('/api/newPost', post).then(function(returnData){
-				$scope.feed = returnData.data
+			$http.post('/api/newPost', item).then(function(returnData){
+				console.log('posting new item')
+				$scope.feed.push(returnData.data)
 			})
 		}
+
+		
 
 	}])
 
