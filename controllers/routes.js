@@ -62,10 +62,11 @@ function postItem(req, res){
 	var post = new posts({
 		name     : req.body.name,  
 		type     : req.body.type,
-		message  : req.body.message,
+		content  : req.body.message,
 		rating   : 0,
 		flagged  : false,
 		archieved: false,
+		visible  : true,
 	})
 	post.save(function(err, docs){
 		if(err){

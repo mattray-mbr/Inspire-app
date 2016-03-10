@@ -102,7 +102,7 @@ app.config(function($routeProvider){
 			//automatically gets posts in the feed
 			$http.get('/api/getposts').then(function(returnData){
 				$scope.feed = returnData.data
-				
+				// console.log($scope.feed)
 			})
 
 		var userNAME = window.location.pathname.split('/').pop()
@@ -123,6 +123,27 @@ app.config(function($routeProvider){
 				console.log('posting new item')
 				$scope.feed.push(returnData.data)
 			})
+		}
+
+		$scope.filter = function(num){
+			console.log('setting filter')
+			for(var i = 0; i < $scope.feed.length; i++){
+				if(num === 0){
+					$scope.feed[i].visible = true
+				} else if($scope.feed[i].type !== num){
+					//hide unwanted posts
+					$scope.feed[i].visible = false
+				} else {
+					$scope.feed[i].visible = true
+				}
+			}
+		}
+
+		$scope.search = function(){
+			console.log($scope.searchword)
+			for(var i = 0; i < $scope.feed.length; i++){
+				//find all posts associated with the searchword
+			}
 		}
 
 		 
