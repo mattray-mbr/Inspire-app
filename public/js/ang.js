@@ -32,20 +32,20 @@ app.config(function($routeProvider){
 			controller  : 'mainController'
 		})
 		.when('/browseDrawing', {
-			templateUrl : '/html/anonymous.html',
-			controller  : 'profileController'
+			templateUrl : '/html/anon.html',
+			controller  : 'anonController'
 		})
 		.when('/browsePainting', {
-			templateUrl : '/html/anonymous.html',
-			controller  : 'profileController'
+			templateUrl : '/html/anon.html',
+			controller  : 'anonController'
 		})
 		.when('/browsePottery', {
-			templateUrl : '/html/anonymous.html',
-			controller  : 'profileController'
+			templateUrl : '/html/anon.html',
+			controller  : 'anonController'
 		})
 		.when('/browseWood', {
-			templateUrl : '/html/anonymous.html',
-			controller  : 'profileController'
+			templateUrl : '/html/anon.html',
+			controller  : 'anonController'
 		})
 })
 
@@ -88,14 +88,9 @@ app.config(function($routeProvider){
 			})
 		}
 
-		function sendProfile(){
-			console.log('userId', $scope.userID)
-			$http.get('/api/profiles/'+ $scope.userID).then(function(returnData){
-				console.log('redirecting')
-			})
+		$scope.profile = function(){
+			initial()
 		}
-
-
 
 	}])
 
@@ -150,9 +145,18 @@ app.config(function($routeProvider){
 			}
 		}
 
-		 
-
+		 $scope.archieved = function(){
+		 	var userNAME = window.location.pathname.split('/').pop()
+			window.location.href = '/archieve/'+userNAME
+		}
 	}])
+
+	// app.controller('archieveController', ['$scope', '$http', function($scope, $http){
+
+	// 	$http.get('/api/getArchievePosts/'+).then(function(retrunData){
+			
+	// 	})
+	// }])
 
 
 	app.controller('headerController', ['$scope', '$http', function($scope, $http){
@@ -237,6 +241,50 @@ app.controller('adminController', ['$scope', '$http', function($scope, $http){
 	})
 }])
 
+app.controller('anonController', ['$scope', '$http', function($scope, $http){
+
+	$scope.feed = []
+
+			//automatically gets posts in the feed
+			$http.get('/api/getposts').then(function(returnData){
+				$scope.feed = returnData.data
+				// console.log($scope.feed)
+			})
+
+		// $scope.newPost = function(){
+		// 	var item = {
+		// 		name      : userNAME,
+		// 		type      : $scope.post.type,
+		// 		message   : $scope.post.message,
+		// 	}
+		// 	$http.post('/api/newPost', item).then(function(returnData){
+		// 		console.log('posting new item')
+		// 		$scope.feed.push(returnData.data)
+		// 	})
+		// }
+
+		$scope.filter = function(num){
+			console.log('setting filter')
+			for(var i = 0; i < $scope.feed.length; i++){
+				if(num === 0){
+					$scope.feed[i].visible = true
+				} else if($scope.feed[i].type !== num){
+					//hide unwanted posts
+					$scope.feed[i].visible = false
+				} else {
+					$scope.feed[i].visible = true
+				}
+			}
+		}
+
+		$scope.search = function(){
+			console.log($scope.searchword)
+			for(var i = 0; i < $scope.feed.length; i++){
+				//find all posts associated with the searchword
+			}
+		}
+
+}])
 
 
 

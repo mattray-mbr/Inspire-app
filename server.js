@@ -77,6 +77,11 @@ app.get('/api/profiles/',app.isAuthenticatedAjax, function(req, res){ //middlewa
 	res.sendFile('profile.html', {root : './public/html'})
 })
 
+app.get('/api/archieve/:userID', app.isAuthenticatedAjax, function(req, res){
+	console.log('archieve test')
+	res.sendFile('archieve.html', {root : './public/html'})
+})
+
 app.get('/api/me', function(req, res){
 	console.log('getting user info')
     res.send({user:req.user})

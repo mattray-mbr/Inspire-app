@@ -22,8 +22,6 @@
 
 			<!-- Button trigger modal -->
 			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Create New Post</button>
-
-			<button class="btn btn-info btn-lg" ng-click="archieved()">Archieved Posts</button>
 			<!-- Modal -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			  <div class="modal-dialog" role="document">
@@ -56,46 +54,7 @@
 					<p>{{posts.type}}</p>
 					<h4 class="post-content">{{posts.content}}</h4>
 					<div class="rating-area">
-						<div>{{posts.rating}}
-							<!-- drop in star ratings -->
-							<input class="rating-input" type="radio" name="stars" id="star-null" />
-							<input class="rating-input" type="radio" name="stars" id="star-1" />
-							<input class="rating-input" type="radio" name="stars" id="star-2" />
-							<input class="rating-input" type="radio" name="stars" id="star-3" />
-							<input class="rating-input" type="radio" name="stars" id="star-4" checked />
-							<input class="rating-input" type="radio" name="stars" id="star-5" />
-							<section class="rating-section">
-							  <label class="star-label" for="star-1">
-							    <svg width="25" height="24" viewBox="0 0 51 48">
-							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
-							    </svg>
-							  </label>
-							  <label class="star-label" for="star-2">
-							    <svg width="25" height="24" viewBox="0 0 51 48">
-							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
-							    </svg>
-							  </label>
-							  <label class="star-label" for="star-3">
-							    <svg width="25" height="24" viewBox="0 0 51 48">
-							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
-							    </svg>
-							  </label>
-							  <label class="star-label" for="star-4">
-							    <svg width="25" height="24" viewBox="0 0 51 48">
-							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
-							    </svg>
-							  </label>
-							  <label class="star-label" for="star-5">
-							    <svg width="25" height="24" viewBox="0 0 51 48">
-							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
-							    </svg>
-							  </label>
-							  <label class="star-label" for="star-null">
-							    Clear
-							  </label>  
-							</section>
-							<!-- end of rating -->
-						</div>
+						<div>{{posts.rating}}</div>
 						<button>{{posts.flagged}}</button>
 						<button>{{posts.archived}}</button>
 					</div>
@@ -133,4 +92,3 @@
 	</footer>
 </body>
 </html>
-	

@@ -50,6 +50,7 @@ function userProfile(req, res){
 	res.sendFile('profile.html', {root : './public/html/'})
 }
 
+
 function getUser(req, res){
 	console.log('retrieving user profile')
 	users.findOne({_id: req.params.userID})
