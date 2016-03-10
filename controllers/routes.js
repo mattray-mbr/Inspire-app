@@ -12,11 +12,12 @@ function addNewUser(req, res){
 				username : req.body.username,
 				email    : req.body.email,
 				password : hash,
+				admin    : false,
 			})
 			person.save(function(saveErr, user){
 				if (saveErr) {res.send({'person save error':saveErr}) }
 				else {
-					req.login(user, function(loginErr){ //save user and also logs in
+					req.logIn(user, function(loginErr){ //save user and also logs in
 						if (loginErr){res.send({'error loging in':loginErr}) }
 						else {res.send({success: user}) }
 					})
@@ -28,11 +29,13 @@ function addNewUser(req, res){
 
 function logInUser(req, res, next){
 	passport.authenticate('local', function(err, user, info){
-		if(err){return next(err); }
+		if(err){
+		console.log('error logging in user')
+		return next(err); }
 		if(!user) {return res.send({error: 'cannot login user'}); }
 		req.logIn(user, function(err) {
 			if(err) { return next(err); }
-			return res.send({success: 'user was loged in'});
+			return res.send({user: req.user});
 		})
 	})(req, res, next);
 }
@@ -82,6 +85,7 @@ function getposts(req, res){
 		res.send(doc)
 	})
 }
+
 
 
 

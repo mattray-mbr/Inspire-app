@@ -1,21 +1,21 @@
 <header class="main-head">
 	<div class="head-box head-left">
-		<h1 class="title">Working Title</h1>
-		<h4>Some subtitle or tagline with words</h4>
+		<h1 class="title">Art Spark</h1>
+		<h4>Inspiration From creators For creators</h4>
 	</div>
 	<div class="head-box head-right">
 		<form class="login-form" ng-submit="logIn()" ng-hide="ifUser">
+			<p class="warning" ng-if="invalid">{{invalid}}</p>
 			<label>username</label>
 			<input type="text" ng-model="user.username">
 			<label>password</label>
 			<input type="password" ng-model="user.password">
 			<br>
-			<input type="submit" class="btn btn-success" value="log In">
+			<input type="submit" class="btn btn-success" value="Log In">
 		</form>
 		<div ng-show="ifUser">
 			<p>currently logged in as {{user.username}}</p>
 			<a href="/api/logOut" ><button class="btn btn-warning pull-right">Log Out</button></a>
 		</div>
 	</div>
-	
 </header>

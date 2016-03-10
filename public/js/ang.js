@@ -21,7 +21,7 @@ app.config(function($routeProvider){
 		})
 		.when('/admin', {
 			templateUrl : '/html/admin.html',
-			controller  : 'mainController'
+			controller  : 'adminController'
 		})
 		.when('/profiles/:userID', {
 			templateUrl : '/html/profile.html',
@@ -30,6 +30,22 @@ app.config(function($routeProvider){
 		.when('/categories', {
 			templateUrl : '/html/categories.html',
 			controller  : 'mainController'
+		})
+		.when('/browseDrawing', {
+			templateUrl : '/html/anonymous.html',
+			controller  : 'profileController'
+		})
+		.when('/browsePainting', {
+			templateUrl : '/html/anonymous.html',
+			controller  : 'profileController'
+		})
+		.when('/browsePottery', {
+			templateUrl : '/html/anonymous.html',
+			controller  : 'profileController'
+		})
+		.when('/browseWood', {
+			templateUrl : '/html/anonymous.html',
+			controller  : 'profileController'
 		})
 })
 
@@ -59,7 +75,6 @@ app.config(function($routeProvider){
 	            }
 	        })
 		}
-		initial()//running function automatically when page loads
 
 		$scope.signUp = function(){
 			var person = {
@@ -87,17 +102,6 @@ app.config(function($routeProvider){
 	app.controller('profileController', ['$scope', '$http', function($scope, $http){
 
 		$scope.feed = []
-
-		//get data about the current user logged in
-		$http({
-				method  : 'GET',
-				url     : '/api/me',
-			}).then(function(returnData){
-	            console.log('user info', returnData)
-	            $scope.loggedInUser = returnData.data
-	            $scope.loggedInUsername = $scope.loggedInUser.user.username
-	        })
-
 
 			//automatically gets posts in the feed
 			$http.get('/api/getposts').then(function(returnData){
@@ -156,15 +160,54 @@ app.config(function($routeProvider){
 		$scope.ifUser = false;
 		$scope.user = {} //!important! needs to initialize as an empty objects in order to bind values to it
 
+		function initial(){	 //put inside a function so that I can call it on login button and sign up
+			$http({
+				method  : 'GET',
+				url     : '/api/me',
+			}).then(function(returnData){
+	            console.log('user info', returnData)
+	            if (returnData.data.user) {
+	            	console.log('user name', returnData.data.user.username)
+	            	$scope.userNAME = returnData.data.user.username
+	                $scope.noUser = false;
+	                $scope.ifUser = true;
+	                //redirect to profile page here
+	                // window.location.href = '/api/profiles/'+$scope.userNAME
+	            } else {
+	            	console.log('no user found')
+	            	//no user so stay on page
+	            }
+	        })
+		}
+		initial()// has to run on load because reasons????
+
 		$scope.logIn = function(){
 			var user = {
 				username: $scope.user.username,
 				password: $scope.user.password,
 			}
-			$http.post('/api/logIn', user).then(function(returnData){
-				$scope.display = returnData.data
-				$scope.ifUser = true;
-			})
+			if(user.username && user.password){
+				// console.log('sending user info to be validated')
+				$http.post('/api/logIn', user).then(function(returnData){
+					console.log('return data?', returnData)
+					if(!returnData.data.user){
+						console.log('no user data retrieved')
+						//triger warning that no user was found
+						$scope.invalid = "Please enter a valid Username or Password"
+						$scope.user.username = ''
+						$scope.user.password = ''
+					}else {
+						$scope.invalid = ''
+						$scope.display = returnData.data
+						$scope.ifUser = true;
+					}
+				})
+			} else {
+				console.log('no info in user page')
+				$scope.invalid = "Please enter a valid Username or Password"
+				$scope.user.username = ''
+				$scope.user.password = ''
+			}
 		}
 
 		$scope.logOut = function(){
@@ -176,6 +219,23 @@ app.config(function($routeProvider){
 
 
 	}])
+
+app.controller('adminController', ['$scope', '$http', function($scope, $http){
+
+	console.log('admin controller')
+	$http({
+		method  : 'GET',
+		url     : '/api/me',
+	}).then(function(returnData){
+		if(!returnData.data.user){
+			window.location.href = '/'
+		} else if(returnData.data.user.admin === false){
+			window.location.href = '/'
+		} else {
+			//do nothing
+		}
+	})
+}])
 
 
 
