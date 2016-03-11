@@ -97,12 +97,13 @@ app.config(function($routeProvider){
 	app.controller('profileController', ['$scope', '$http', function($scope, $http){
 
 		$scope.feed = []
+		console.log('profile controller')
 
-			//automatically gets posts in the feed
-			$http.get('/api/getposts').then(function(returnData){
-				$scope.feed = returnData.data
-				// console.log($scope.feed)
-			})
+		//automatically gets posts in the feed
+		$http.get('/api/getposts').then(function(returnData){
+			$scope.feed = returnData.data
+			// console.log($scope.feed)
+		})
 
 		var userNAME = window.location.pathname.split('/').pop()
 		$http.get('/profiles/' + userNAME).then(function(serverResponse){
@@ -147,16 +148,36 @@ app.config(function($routeProvider){
 
 		 $scope.archieved = function(){
 		 	var userNAME = window.location.pathname.split('/').pop()
-			window.location.href = '/archieve/'+userNAME
+			window.location.href = '/api/archieve/'+userNAME
+		}
+
+		$scope.archievePost = function(index){
+			var userNAME = window.location.pathname.split('/').pop()
+			console.log($scope.feed[index])
+			$http.post('/api/userArchieves', {username: userNAME, postID: $scope.feed[index]._id}).then(function(returnData){
+				console.log('info coming back from archieve update', returnData.data)
+			})
+		}
+
+		$scope.flagPost = function(index){
+			console.log('flagging post for delete')
+			console.log($scope.feed[index].content)
+			$scope.feed[index].flagged = true
+			//send enitre object to be changed in the db
+			$http.post('/api/flagging/', $scope.feed[index]).then(function(returnData){
+				//do I need to return anything back?
+				console.log(returnData.data)
+			})
+			$scope.isFlagged = 'isFlagged';
 		}
 	}])
 
-	// app.controller('archieveController', ['$scope', '$http', function($scope, $http){
+	app.controller('archieveController', ['$scope', '$http', function($scope, $http){
 
-	// 	$http.get('/api/getArchievePosts/'+).then(function(retrunData){
+		// $http.get('/api/getArchievePosts/'+).then(function(retrunData){
 			
-	// 	})
-	// }])
+		// })
+	}])
 
 
 	app.controller('headerController', ['$scope', '$http', function($scope, $http){

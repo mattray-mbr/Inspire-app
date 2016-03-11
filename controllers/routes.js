@@ -12,7 +12,7 @@ function addNewUser(req, res){
 				username : req.body.username,
 				email    : req.body.email,
 				password : hash,
-				admin    : false,
+				admin    : true,
 			})
 			person.save(function(saveErr, user){
 				if (saveErr) {res.send({'person save error':saveErr}) }
@@ -69,7 +69,7 @@ function postItem(req, res){
 		content  : req.body.message,
 		rating   : 0,
 		flagged  : false,
-		archieved: false,
+		archieved: [],
 		visible  : true,
 	})
 	post.save(function(err, docs){
@@ -87,16 +87,35 @@ function getposts(req, res){
 	})
 }
 
+function updateUserArchieve(req, res){
+	console.log('update info', req.body)
+	posts.findOne({_id: req.body.postID}) //find matching post for request
+		 //update post archieve array with username
+		.exec(function(err, doc){
+			post.archieved.push(req.body.userNAME)
+			console.log('push username into archieved array')
+		})
+}
 
+function flagPost(req, res){
+	posts.update({_id: req.body._id}, req.body, function(err, updated){
+		//update post then the new req.body
+		posts.findOne({_id: req.body._id}, function(err, post){
+			res.send(post)
+		})
+	})
+}
 
 
 module.exports = {
-	addNewUser      : addNewUser,
-	logInUser       : logInUser,
-	userProfile     : userProfile,
-	getUser         : getUser,
-	logOutUser      : logOutUser,
-	postItem        : postItem,
-	getposts        : getposts,
+	addNewUser         : addNewUser,
+	logInUser          : logInUser,
+	userProfile        : userProfile,
+	getUser            : getUser,
+	logOutUser         : logOutUser,
+	postItem           : postItem,
+	getposts           : getposts,
+	updateUserArchieve : updateUserArchieve,
+	flagPost           : flagPost,
 	
 }

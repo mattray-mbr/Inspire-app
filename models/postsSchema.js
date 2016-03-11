@@ -6,7 +6,7 @@ var postSchema = mongoose.Schema({
 	content      : {type: String, required: true},
 	rating       : {type: Number, required: true},
 	flagged      : {type: Boolean,required: true},
-	archieved    : {type: Boolean,required: true},
+	archieved    : {type: Array},
 	visible      : {type: Boolean,required: true},
 
 })

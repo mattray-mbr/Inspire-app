@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.min.js"></script>
 	<script src="/js/ang.js"></script>
 </head>
-<body >
+<body>
 	<div ng-controller="headerController">
 		<ng-include src=" '/html/header.html' "></ng-include>
 	</div>
@@ -24,6 +24,7 @@
 			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Create New Post</button>
 
 			<button class="btn btn-info btn-lg" ng-click="archieved()">Archieved Posts</button>
+			<button class="btn btn-info btn-lg" ng-click="">User posts</button>
 			<!-- Modal -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			  <div class="modal-dialog" role="document">
@@ -58,12 +59,14 @@
 					<div class="rating-area">
 						<div>{{posts.rating}}
 							<!-- drop in star ratings -->
-							<input class="rating-input" type="radio" name="stars" id="star-null" />
-							<input class="rating-input" type="radio" name="stars" id="star-1" />
-							<input class="rating-input" type="radio" name="stars" id="star-2" />
-							<input class="rating-input" type="radio" name="stars" id="star-3" />
-							<input class="rating-input" type="radio" name="stars" id="star-4" checked />
-							<input class="rating-input" type="radio" name="stars" id="star-5" />
+							<div class="radio-btns">
+								<input class="rating-input" type="radio" name="stars" id="star-null" />
+								<input class="rating-input" type="radio" name="stars" id="star-1" />
+								<input class="rating-input" type="radio" name="stars" id="star-2" />
+								<input class="rating-input" type="radio" name="stars" id="star-3" />
+								<input class="rating-input" type="radio" name="stars" id="star-4" checked />
+								<input class="rating-input" type="radio" name="stars" id="star-5" />
+							</div>
 							<section class="rating-section">
 							  <label class="star-label" for="star-1">
 							    <svg width="25" height="24" viewBox="0 0 51 48">
@@ -96,18 +99,33 @@
 							</section>
 							<!-- end of rating -->
 						</div>
-						<button>{{posts.flagged}}</button>
-						<button>{{posts.archived}}</button>
 					</div>
+						<div class="archieve-post modify">Save post to Archieves<span class="glyphicon glyphicon-book" ng-click="archievePost($index)"></span></div>
+						<div class="flagged-post modify" ng-class="isFlagged">Flag post for Delete<span class="glyphicon glyphicon-flag" ng-click="flagPost($index)"></span></div>
 				</div>
+				<!-- angled divs area -->
+				<div class="rr rr-left">
+					<div>
+						<h2>rr-left div</h2>
+						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+					</div>
+					</div>
+					<div class="rr rr-right">
+					<div>
+						<h2>rr-right div</h2>
+						<p>Lorem ipsum dolor sit amet, dolore eu feugiat facilisis.</p>
+					</div>
+					</div>
 			</div>
 		</section>
 		<!-- fine tuning options -->
 		<section id="options" class="column">
-			<p>filter and search features</p>
+			<p>Filter Posts</p>
 			<div class="filter">
+				<button>By date Added</button>
+				<button>By rating</button>
 				<div class="dropdown">
-				  <a id="dLabel" data-target="" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Posts by:<span class="caret"></span></a>
+				  <a id="dLabel" data-target="" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Posts type:<span class="caret"></span></a>
 				  <ul class="dropdown-menu" aria-labelledby="dLabel">
 				  	<li ng-click="filter(0)">none</li>
 				    <li ng-click="filter(1)">article</li>
@@ -128,9 +146,7 @@
 			<p>????</p>
 		</section>
 	</div>
-	<footer>
-		<p>footer stuff</p>
-	</footer>
+	<ng-include src=" '/html/footer.html' "></ng-include>
 </body>
 </html>
 	

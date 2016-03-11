@@ -17,37 +17,8 @@
 	<div ng-controller="headerController">
 		<ng-include src=" '/html/header.html' "></ng-include>
 	</div>
-	<div id="main-container" ng-controller="profileController">
+	<div id="main-container" ng-controller="archieveController">
 		<section id="content" class="column">
-
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Create New Post</button>
-			<!-- Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-			      </div>
-			      <div class="modal-body">
-					<!-- add a new post  -->
-			        <form ng-submit="newPost()">
-			        	<label>Post type(num)</label>
-			        	<input type="text" ng-model="post.type">
-			        	<label>message</label>
-			        	<input type="text" ng-model="post.message">
-			        	<input type="submit">
-			        </form>
-					<!-- end of post form -->
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			<!-- end of modal -->
 			<div ng-repeat="posts in feed">
 				<div class="posts" ng-show="posts.visible">
 					<h3 class="post-user">Post from: {{posts.name}}</h3>

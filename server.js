@@ -91,6 +91,10 @@ app.post('/api/newPost', app.isAuthenticatedAjax, routes.postItem)
 
 app.get('/api/getposts', routes.getposts)
 
+app.post('/api/userArchieve', routes.updateUserArchieve)
+
+app.post('/api/flagging/', routes.flagPost)
+
 // app.get('/profiles/:userID', function(req, res){
 // 	res.sendFile('profile.html', {root: './public/html'})
 // })
