@@ -96,13 +96,14 @@ app.config(function($routeProvider){
 
 	app.controller('profileController', ['$scope', '$http', function($scope, $http){
 
+		var userNAME = window.location.pathname.split('/').pop()
 		$scope.feed = []
+
 		console.log('profile controller')
 
 		//automatically gets posts in the feed
 		$http.get('/api/getposts').then(function(returnData){
 			$scope.feed = returnData.data
-			// console.log($scope.feed)
 		})
 
 		var userNAME = window.location.pathname.split('/').pop()
@@ -147,12 +148,12 @@ app.config(function($routeProvider){
 		}
 
 		 $scope.archieved = function(){
-		 	var userNAME = window.location.pathname.split('/').pop()
+		 	// var userNAME = window.location.pathname.split('/').pop()
 			window.location.href = '/api/archieve/'+userNAME
 		}
 
 		$scope.archievePost = function(index){
-			var userNAME = window.location.pathname.split('/').pop()
+			// var userNAME = window.location.pathname.split('/').pop()
 			console.log($scope.feed[index])
 			$http.post('/api/userArchieves', {username: userNAME, postID: $scope.feed[index]._id}).then(function(returnData){
 				console.log('info coming back from archieve update', returnData.data)
@@ -170,13 +171,42 @@ app.config(function($routeProvider){
 			})
 			$scope.isFlagged = 'isFlagged';
 		}
+
+		$scope.userPosts = function(){
+			var userNAME = window.location.pathname.split('/').pop()
+			window.location.href = '/api/getUserPosts/' + userNAME
+		}
 	}])
 
 	app.controller('archieveController', ['$scope', '$http', function($scope, $http){
+		$scope.feed = []
 
-		// $http.get('/api/getArchievePosts/'+).then(function(retrunData){
-			
-		// })
+		var userNAME = window.location.pathname.split('/').pop()
+		//send username with request to have something to match with in the database
+		$http.get('/api/getArchievePosts/:userNAME/').then(function(returnData){
+			console.log(returnData)
+			if(returnData.data = []){
+				$scope.feedError = true;
+			} else {
+				$scope.feed = returnData.data
+			}
+		})
+	}])
+
+	app.controller('userPostsController', ['$scope', '$http', function($scope, $http){
+		$scope.feed = []
+		var userNAME = window.location.pathname.split('/').pop()
+
+		$http.get('/api/getUserPosts/:userNAME/'),then(function(returnData){
+			if(returnData.data = []){
+				$scope.feedError = true;
+			} else {
+				$scope.feed = returnData.data
+			}
+		})
+
+
+
 	}])
 
 
@@ -246,6 +276,7 @@ app.config(function($routeProvider){
 	}])
 
 app.controller('adminController', ['$scope', '$http', function($scope, $http){
+	$scope.feed = []
 
 	console.log('admin controller')
 	$http({
@@ -260,6 +291,33 @@ app.controller('adminController', ['$scope', '$http', function($scope, $http){
 			//do nothing
 		}
 	})
+
+	$http.get('/api/getFlaggedPosts/').then(function(returnData){
+		$scope.feed = returnData.data
+	})
+
+	$scope.deletePost = function(index){
+		console.log('deleting a post')
+		$http.post('/api/deletePost/', $scope.feed[index]).then(function(returnData){
+			console.log(returnData)
+		})
+		//hide post that was just deleted
+	}
+
+	$scope.unflagPost = function(index){
+		console.log('unflag a post')
+		$scope.feed[index].flagged = false
+		$http.post('/api/unflagPost/', $scope.feed[index]).then(function(returnData){
+			console.log(returnData)
+		})
+	}
+
+
+
+
+
+
+
 }])
 
 app.controller('anonController', ['$scope', '$http', function($scope, $http){

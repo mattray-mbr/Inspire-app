@@ -95,9 +95,15 @@ app.post('/api/userArchieve', routes.updateUserArchieve)
 
 app.post('/api/flagging/', routes.flagPost)
 
-// app.get('/profiles/:userID', function(req, res){
-// 	res.sendFile('profile.html', {root: './public/html'})
-// })
+app.get('/api/getFlaggedPosts', routes.getFlaggedPosts)
+
+app.post('/api/deletePost', routes.deletePost)
+
+app.post('/api/unflagPost', routes.unflagPost)
+
+app.get('/api/getArchievePosts/:userNAME/',app.isAuthenticatedAjax, routes.userArchieves)
+
+app.get('/api/getUserPosts/:userNAME/', app.isAuthenticatedAjax, routes.userPosts)
 
 app.get('/profiles/:userID', routes.getUser)
 

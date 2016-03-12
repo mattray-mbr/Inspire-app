@@ -106,6 +106,54 @@ function flagPost(req, res){
 	})
 }
 
+function getFlaggedPosts(req, res){
+	//find only posts with flagged value of true
+	posts.find({flagged: true}, function(err, doc){
+		res.send(doc)
+	})
+}
+
+function deletePost(req, res){
+	console.log('find and delete post', req.body._id)
+	posts.remove({_id: req.body._id}, function(err, doc){
+		if(err){
+			console.log(err)
+		} else {
+			res.send('???')
+		}
+	})
+}
+
+function unflagPost(req, res){
+	post.update({_id: req.body._id}, req.body, function(err, updated){
+		posts.findOne({_id: req.body._id}, function(err, post){
+			res.send(post)
+		})
+	})
+}
+
+function userArchieves(req, res){
+	// find posts with archieved[req.params.username]
+	posts.find({archieved: req.params.userNAME}, function(err, docs){
+		if(err){
+			console.log(err)
+		} else {
+			res.send(docs)
+		}
+	})
+}
+
+function userPosts(req, res){
+	//find posts with username of req.params.userNAME
+	posts.find({username: req.params.userNAME}, function (err, docs){
+		if(err){
+			console.log(err)
+		} else {
+			res.send(docs)
+		}
+	})
+}
+
 
 module.exports = {
 	addNewUser         : addNewUser,
@@ -117,5 +165,10 @@ module.exports = {
 	getposts           : getposts,
 	updateUserArchieve : updateUserArchieve,
 	flagPost           : flagPost,
+	getFlaggedPosts    : getFlaggedPosts,
+	deletePost         : deletePost,
+	unflagPost         : unflagPost,
+	userArchieves      : userArchieves,
+	userPosts          : userPosts,
 	
 }
