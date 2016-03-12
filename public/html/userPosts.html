@@ -25,6 +25,7 @@
 					<h3 class="post-user">Post from: {{posts.name}}</h3>
 					<p>{{posts.type}}</p>
 					<h4 class="post-content">{{posts.content}}</h4>
+					<div class="delete-post" ng-click="deletePost($index)">Remove</div>
 					<div class="rating-area">
 						<div>{{posts.rating}}</div>
 						<button>{{posts.flagged}}</button>
@@ -59,8 +60,6 @@
 			<p>????</p>
 		</section>
 	</div>
-	<footer>
-		<p>footer stuff</p>
-	</footer>
+	<ng-include src=" '/html/footer.html' "></ng-include>
 </body>
 </html>

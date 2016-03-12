@@ -106,19 +106,20 @@ app.config(function($routeProvider){
 			$scope.feed = returnData.data
 		})
 
-		var userNAME = window.location.pathname.split('/').pop()
 		$http.get('/profiles/' + userNAME).then(function(serverResponse){
 			console.log(serverResponse)
 			$scope.loggedInUser = serverResponse.data
 		})
 
 		
-
 		$scope.newPost = function(){
+			var time = Date.now()
+			console.log(time)
 			var item = {
 				name      : userNAME,
 				type      : $scope.post.type,
 				message   : $scope.post.message,
+				timestamp : time, //does this actually work????
 			}
 			$http.post('/api/newPost', item).then(function(returnData){
 				console.log('posting new item')
@@ -148,12 +149,10 @@ app.config(function($routeProvider){
 		}
 
 		 $scope.archieved = function(){
-		 	// var userNAME = window.location.pathname.split('/').pop()
 			window.location.href = '/api/archieve/'+userNAME
 		}
 
 		$scope.archievePost = function(index){
-			// var userNAME = window.location.pathname.split('/').pop()
 			console.log($scope.feed[index])
 			$http.post('/api/userArchieves', {username: userNAME, postID: $scope.feed[index]._id}).then(function(returnData){
 				console.log('info coming back from archieve update', returnData.data)
@@ -173,8 +172,7 @@ app.config(function($routeProvider){
 		}
 
 		$scope.userPosts = function(){
-			var userNAME = window.location.pathname.split('/').pop()
-			window.location.href = '/api/getUserPosts/' + userNAME
+			window.location.href = '/api/userPosts/' + userNAME
 		}
 	}])
 
@@ -185,7 +183,7 @@ app.config(function($routeProvider){
 		//send username with request to have something to match with in the database
 		$http.get('/api/getArchievePosts/:userNAME/').then(function(returnData){
 			console.log(returnData)
-			if(returnData.data = []){
+			if(returnData.data === []){
 				$scope.feedError = true;
 			} else {
 				$scope.feed = returnData.data
@@ -197,13 +195,22 @@ app.config(function($routeProvider){
 		$scope.feed = []
 		var userNAME = window.location.pathname.split('/').pop()
 
-		$http.get('/api/getUserPosts/:userNAME/'),then(function(returnData){
-			if(returnData.data = []){
+		$http.get('/api/getUserPosts/'+userNAME).then(function(returnData){
+			console.log(returnData.data)
+			if(returnData.data === []){
 				$scope.feedError = true;
 			} else {
 				$scope.feed = returnData.data
 			}
 		})
+
+		$scope.deletePost = function(index){
+		console.log('deleting a post')
+		$http.post('/api/deletePost/', $scope.feed[index]).then(function(returnData){
+			console.log(returnData)
+		})
+		//hide post that was just deleted
+	}
 
 
 

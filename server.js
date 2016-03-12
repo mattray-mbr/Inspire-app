@@ -82,6 +82,10 @@ app.get('/api/archieve/:userID', app.isAuthenticatedAjax, function(req, res){
 	res.sendFile('archieve.html', {root : './public/html'})
 })
 
+app.get('/api/userPosts/:userNAME', app.isAuthenticatedAjax, function(req, res){
+	res.sendFile('userPosts.html', {root: './public/html'})
+})
+
 app.get('/api/me', function(req, res){
 	console.log('getting user info')
     res.send({user:req.user})
@@ -101,9 +105,9 @@ app.post('/api/deletePost', routes.deletePost)
 
 app.post('/api/unflagPost', routes.unflagPost)
 
-app.get('/api/getArchievePosts/:userNAME/',app.isAuthenticatedAjax, routes.userArchieves)
+app.get('/api/getArchievePosts/:userNAME/', routes.userArchieves)
 
-app.get('/api/getUserPosts/:userNAME/', app.isAuthenticatedAjax, routes.userPosts)
+app.get('/api/getUserPosts/:userNAME/', routes.userPosts)
 
 app.get('/profiles/:userID', routes.getUser)
 

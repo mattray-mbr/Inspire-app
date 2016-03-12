@@ -71,6 +71,7 @@ function postItem(req, res){
 		flagged  : false,
 		archieved: [],
 		visible  : true,
+		timestamp: req.body.timestamp,
 	})
 	post.save(function(err, docs){
 		if(err){
@@ -144,8 +145,10 @@ function userArchieves(req, res){
 }
 
 function userPosts(req, res){
+	console.log('finding only logged in users posts')
+	console.log(req.params.userNAME)
 	//find posts with username of req.params.userNAME
-	posts.find({username: req.params.userNAME}, function (err, docs){
+	posts.find({name: req.params.userNAME}, function (err, docs){
 		if(err){
 			console.log(err)
 		} else {

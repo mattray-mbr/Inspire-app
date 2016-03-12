@@ -8,6 +8,7 @@ var postSchema = mongoose.Schema({
 	flagged      : {type: Boolean,required: true},
 	archieved    : {type: Array},
 	visible      : {type: Boolean,required: true},
+	timestamp    : {type: Number, required: true},
 
 })
 

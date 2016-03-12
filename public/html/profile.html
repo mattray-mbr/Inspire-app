@@ -133,6 +133,16 @@
 				    <li ng-click="filter(3)">videos</li>
 				  </ul>
 				</div>
+				<h4>Sorting</h4>
+				<div class="dropdown">
+				  <a id="sortLabel" data-target="" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort Posts type:<span class="caret"></span></a>
+				  <ul class="dropdown-menu" aria-labelledby="sortLabel">
+				  	<li ng-click="sort(0)">default</li>
+				    <li ng-click="sort(1)">rating</li>
+				    <li ng-click="sort(2)">date Added</li>
+				    <li ng-click="sort(3)">Newest</li>
+				  </ul>
+				</div>
 			</div>
 			<div class="search">
 				<form ng-submit="searchform()">
