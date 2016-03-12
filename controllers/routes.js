@@ -2,11 +2,19 @@ var users = require('../models/userSchema.js')
 var posts = require('../models/postsSchema.js')
 var bcrypt = require('bcryptjs') //bcrypt is required here and in the passportConfig file
 var passport =  require('passport')
+var s3 = require('s3')
+
+s3Client = s3.createClient({
+	s3Options: {
+		
+	}
+})
 
 
 function addNewUser(req, res){
 	bcrypt.genSalt(11, function(err, salt){
-		console.log(req.body)
+
+
 		bcrypt.hash(req.body.password, salt, function(hashError, hash){
 			var person = new users({
 				username : req.body.username,
@@ -63,21 +71,50 @@ function getUser(req, res){
 function postItem(req, res){
 	console.log('making a new post')
 	console.log(req.body)
-	var post = new posts({
-		name     : req.body.name,  
-		type     : req.body.type,
-		content  : req.body.message,
-		rating   : 0,
-		flagged  : false,
-		archieved: [],
-		visible  : true,
-		timestamp: req.body.timestamp,
-	})
-	post.save(function(err, docs){
-		if(err){
-			console.log('error saving post in db', err)
+	//set variables so I dont have to write req.body.data everywhere
+	var body = req.body.data
+	var file = req.files.files
+	var url;
+
+	//initialize the upload
+	var uploader = s3Client.uploadFile({
+		localFile : file.path,
+		s3Params  :{
+			Bucket : 'spark-storage',
+			//Key : '/stuff/' + file.name, // filepath on the bucket where the image will live
+			Key    : file.name,
+			ACL    : 'public-read', //access control
 		}
-		res.send(post)
+	})
+
+	//reports back on progress of the upload
+	uploader.on('progress', function(){
+		console.log('progress', uploader.progressAmount, uploader.progressTotal)
+	})
+
+	//once the file is done uploading
+	uploader.on('end', function(){
+		url = s3.getPublicUrlHttp('spark-storage/ /images', file.name)  // url is not correct
+	
+		var post = new posts({
+			name     : req.body.data.name,  
+			type     : req.body.data.type,
+			content  : req.body.data.message,
+			rating   : 0,
+			flagged  : false,
+			archieved: [],
+			visible  : true,
+			timestamp: req.body.data.timestamp,
+			files    : url, //url that comes back from s3
+			outsource: req.body.data.outsource,
+		})
+		console.log('this is the post', post)
+		post.save(function(err, docs){
+			if(err){
+				console.log('error saving post in db', err)
+			}
+			res.send(docs)//send docs or just post?
+		})
 	})
 }
 

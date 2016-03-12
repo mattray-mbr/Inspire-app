@@ -1,4 +1,4 @@
-var app = angular.module('inspire', ['ngRoute'])
+var app = angular.module('inspire', ['ngRoute', 'ngFileUpload'])
 
 app.config(function($routeProvider){
 	//all the angular front end routes
@@ -94,8 +94,8 @@ app.config(function($routeProvider){
 
 	}])
 
-	app.controller('profileController', ['$scope', '$http', function($scope, $http){
-
+	app.controller('profileController', ['$scope', '$http', 'Upload', '$sce', function($scope, $http, Upload, $sce){
+		$scope.$sce = $sce
 		var userNAME = window.location.pathname.split('/').pop()
 		$scope.feed = []
 
@@ -113,18 +113,33 @@ app.config(function($routeProvider){
 
 		
 		$scope.newPost = function(){
+			console.log('files', $scope.post.files)
+
 			var time = Date.now()
-			console.log(time)
 			var item = {
 				name      : userNAME,
 				type      : $scope.post.type,
 				message   : $scope.post.message,
-				timestamp : time, //does this actually work????
+				timestamp : time, //post the current time in milisecond form
+				files     : $scope.post.files, //object with file information
+				outsource : $scope.post.outsource,
 			}
-			$http.post('/api/newPost', item).then(function(returnData){
-				console.log('posting new item')
-				$scope.feed.push(returnData.data)
+
+			//where the file is sent when uploaded
+			Upload.upload({
+				url  : '/api/newPost',
+				data : {
+					files : $scope.post.files,
+					data  : item,
+				}
 			})
+
+			//do I need the post below or is this a duplicate??
+			
+			// $http.post('/api/newPost', item).then(function(returnData){
+			// 	console.log('posting new item')
+			// 	$scope.feed.push(returnData.data)
+			// })
 		}
 
 		$scope.filter = function(num){
@@ -337,17 +352,7 @@ app.controller('anonController', ['$scope', '$http', function($scope, $http){
 				// console.log($scope.feed)
 			})
 
-		// $scope.newPost = function(){
-		// 	var item = {
-		// 		name      : userNAME,
-		// 		type      : $scope.post.type,
-		// 		message   : $scope.post.message,
-		// 	}
-		// 	$http.post('/api/newPost', item).then(function(returnData){
-		// 		console.log('posting new item')
-		// 		$scope.feed.push(returnData.data)
-		// 	})
-		// }
+		
 
 		$scope.filter = function(num){
 			console.log('setting filter')

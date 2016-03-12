@@ -9,6 +9,8 @@ var postSchema = mongoose.Schema({
 	archieved    : {type: Array},
 	visible      : {type: Boolean,required: true},
 	timestamp    : {type: Number, required: true},
+	files        : {},
+	outsource    : {type: String},
 
 })
 

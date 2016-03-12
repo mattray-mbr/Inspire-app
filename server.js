@@ -4,6 +4,9 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var routes = require('./controllers/routes.js')
+var multiparty = require('connect-multiparty')
+// Connect multi-party helps our sever understand
+// MULTI-PART FORM DATA (Files AND Data)
 
 //passport setup
 var passport = require('passport');
@@ -91,7 +94,7 @@ app.get('/api/me', function(req, res){
     res.send({user:req.user})
 })
 
-app.post('/api/newPost', app.isAuthenticatedAjax, routes.postItem)
+app.post('/api/newPost', app.isAuthenticatedAjax, multiparty(), routes.postItem)
 
 app.get('/api/getposts', routes.getposts)
 
