@@ -115,6 +115,7 @@ app.config(function($routeProvider){
 		$scope.newPost = function(){
 			console.log('files', $scope.post.files)
 
+
 			var time = Date.now()
 			var item = {
 				name      : userNAME,
@@ -124,22 +125,24 @@ app.config(function($routeProvider){
 				files     : $scope.post.files, //object with file information
 				outsource : $scope.post.outsource,
 			}
-
-			//where the file is sent when uploaded
-			Upload.upload({
+			console.log($scope.post.files)
+			if($scope.post.files === undefined){
+				console.log('no user file uploaded')
+				$http.post('/api/newPost2', item).then(function(returnData){
+					console.log('posting new item')
+					$scope.feed.push(returnData.data)
+				})
+			} else {
+				console.log('user has added a file')
+				//where the file is sent when uploaded
+				Upload.upload({
 				url  : '/api/newPost',
 				data : {
 					files : $scope.post.files,
 					data  : item,
-				}
-			})
-
-			//do I need the post below or is this a duplicate??
-			
-			// $http.post('/api/newPost', item).then(function(returnData){
-			// 	console.log('posting new item')
-			// 	$scope.feed.push(returnData.data)
-			// })
+					}
+				})
+			}			
 		}
 
 		$scope.filter = function(num){
@@ -154,6 +157,34 @@ app.config(function($routeProvider){
 					$scope.feed[i].visible = true
 				}
 			}
+		}
+		//====================
+		function oldest(a,b){
+			console.log('sorting by oldest')
+			if (a.timestamp < b.timestamp)
+			    return -1;
+			  else if (a.timestamp > b.timestamp)
+			    return 1;
+			  else 
+			    return 0;
+		}
+		function newest(a,b){
+			console.log('sorting by newest')
+			if (a.timestamp > b.timestamp)
+			    return -1;
+			  else if (a.timestamp < b.timestamp)
+			    return 1;
+			  else 
+			    return 0;
+		}
+		//=====================
+		$scope.sortfeed = function(num){
+			if(num === 2){ //date added acending
+				$scope.feed.sort(oldest)
+			} else if(num === 3){ //date added decending
+				$scope.feed.sort(newest)
+			}
+			
 		}
 
 		$scope.search = function(){

@@ -41,6 +41,7 @@
 			        	<input type="text" ng-model="post.type">
 			        	<label>message</label>
 			        	<input type="text" ng-model="post.message">
+			        	<input type="checkbox" ng-model="isfiles">
 			        	<label>upload images</label>
 			        	<input 
 			        		type="file" 
@@ -75,39 +76,39 @@
 								<input class="rating-input" type="radio" name="stars" id="star-5" />
 							</div>
 							<section class="rating-section">
-							  <label class="star-label" for="star-1">
+							  <label id="star-label" for="star-1">
 							    <svg width="25" height="24" viewBox="0 0 51 48">
 							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
 							    </svg>
 							  </label>
-							  <label class="star-label" for="star-2">
+							  <label id="star-label" for="star-2">
 							    <svg width="25" height="24" viewBox="0 0 51 48">
 							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
 							    </svg>
 							  </label>
-							  <label class="star-label" for="star-3">
+							  <label id="star-label" for="star-3">
 							    <svg width="25" height="24" viewBox="0 0 51 48">
 							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
 							    </svg>
 							  </label>
-							  <label class="star-label" for="star-4">
+							  <label id="star-label" for="star-4">
 							    <svg width="25" height="24" viewBox="0 0 51 48">
 							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
 							    </svg>
 							  </label>
-							  <label class="star-label" for="star-5">
+							  <label id="star-label" for="star-5">
 							    <svg width="25" height="24" viewBox="0 0 51 48">
 							      <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z"/>
 							    </svg>
 							  </label>
-							  <label class="star-label" for="star-null">
+							  <label id="star-label" for="star-null">
 							  </label>  
 							</section>
 							<!-- end of rating -->
 						</div>
 					</div>
 				<div class="post-username">
-					<h3>Post from: {{posts.name}}</h3>
+					<h3>Post from: {{posts.name}}</h3><h6>{{posts.timestamp | date}}</h6>
 				</div>
 					<div class="archieve-post post-options">Save post to Archieves<span class="glyphicon glyphicon-book" ng-click="archievePost($index)"></span></div>
 					<div class="flagged-post post-options" ng-class="isFlagged">Flag post for Delete<span class="glyphicon glyphicon-flag" ng-click="flagPost($index)"></span></div>
@@ -116,8 +117,10 @@
 						<div class="post-content">
 							<h4>{{posts.content}}</h4>
 						</div>
-						<div class="post-media">{{posts.files}}</div>
-						<iframe class="post-embed" width="300px" height="300px" src="https://css-tricks.com/approaches-media-queries-sass/"></iframe>
+						<div class="post-media img-responsive">
+							<img src="{{posts.files}}" alt="">
+						</div>
+						<iframe class="post-embed" src="{{$sce.trustAsResourceUrl(posts.outsource)}}"></iframe>
 					</div>
 				</div>
 				<!-- angled divs area -->
@@ -154,10 +157,10 @@
 				<div class="dropdown">
 				  <a id="sortLabel" data-target="" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort Posts type:<span class="caret"></span></a>
 				  <ul class="dropdown-menu" aria-labelledby="sortLabel">
-				  	<li ng-click="sort(0)">default</li>
-				    <li ng-click="sort(1)">rating</li>
-				    <li ng-click="sort(2)">date Added</li>
-				    <li ng-click="sort(3)">Newest</li>
+				  	<li ng-click="sortfeed(0)">default</li>
+				    <li ng-click="sortfeed(1)">rating</li>
+				    <li ng-click="sortfeed(2)">date Added</li>
+				    <li ng-click="sortfeed(3)">Newest</li>
 				  </ul>
 				</div>
 			</div>

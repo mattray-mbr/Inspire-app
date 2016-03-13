@@ -74,7 +74,7 @@ function postItem(req, res){
 	//set variables so I dont have to write req.body.data everywhere
 	var body = req.body.data
 	var file = req.files.files
-	var url;
+	
 
 	//initialize the upload
 	var uploader = s3Client.uploadFile({
@@ -94,7 +94,7 @@ function postItem(req, res){
 
 	//once the file is done uploading
 	uploader.on('end', function(){
-		url = s3.getPublicUrlHttp('spark-storage/ /images', file.name)  // url is not correct
+		var url = s3.getPublicUrlHttp('spark-storage', file.name)  // url is not correct
 	
 		var post = new posts({
 			name     : req.body.data.name,  
@@ -115,6 +115,28 @@ function postItem(req, res){
 			}
 			res.send(docs)//send docs or just post?
 		})
+	})
+}
+
+function postItem2(req, res){
+	console.log('post without added upload file')
+	var post = new posts({
+		name     : req.body.name,  
+		type     : req.body.type,
+		content  : req.body.message,
+		rating   : 0,
+		flagged  : false,
+		archieved: [],
+		visible  : true,
+		timestamp: req.body.timestamp,
+		files    : '',
+		outsource: req.body.outsource,
+	})
+	post.save(function(err, docs){
+		if(err){
+			console.log('error saving post in db', err)
+		}
+		res.send(docs)//send docs or just post?
 	})
 }
 
@@ -202,6 +224,7 @@ module.exports = {
 	getUser            : getUser,
 	logOutUser         : logOutUser,
 	postItem           : postItem,
+	postItem2          : postItem2,
 	getposts           : getposts,
 	updateUserArchieve : updateUserArchieve,
 	flagPost           : flagPost,

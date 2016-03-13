@@ -94,7 +94,9 @@ app.get('/api/me', function(req, res){
     res.send({user:req.user})
 })
 
-app.post('/api/newPost', app.isAuthenticatedAjax, multiparty(), routes.postItem)
+app.post('/api/newPost', multiparty(), routes.postItem)
+
+app.post('/api/newPost2', routes.postItem2)
 
 app.get('/api/getposts', routes.getposts)
 
