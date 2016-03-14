@@ -42,7 +42,6 @@
 			        	<input type="text" ng-model="post.type">
 			        	<label>message</label>
 			        	<input type="text" ng-model="post.message">
-			        	<input type="checkbox" ng-model="isfiles">
 			        	<label>upload images</label>
 			        	<input 
 			        		type="file" 
@@ -50,7 +49,7 @@
 			        		ngf-pattern=" 'image/*' "
 			        		ngf-accept=" 'image/*' "
 			        		ngf-select>
-			        	<input type="submit">
+			        	<input type="submit" data-dismiss="modal" class="btn btn-info">
 			        	<label>link video or article</label>
 			        	<input type="text" ng-model="post.outsource">
 			        </form>
@@ -63,48 +62,50 @@
 			  </div>
 			</div>
 			<!-- end of modal -->
-			<div ng-repeat="posts in feed">
+			<div ng-repeat="posts in feed track by $index">
 				<div class="posts" ng-show="posts.visible">
 				<!-- drop in rating area -->
+
+
 					<div class="rating-area">
-						<form class="rating-form" action="#" method="post" name="rating-movie">
+						<form class="rating-form" ng-submit="ratePost($index)">
 						  <fieldset class="form-group">
 						    <legend class="form-legend">Rating: </legend>
 						    <div class="form-item">  
-						      <input id="rating-5" name="rating" type="radio" value="5" />
-						      <label for="rating-5" data-value="5">
+						      <input id="{{$index}}5" name="rating" type="radio" value="5" ng-model="rateNum['score']"/>
+						      <label for="{{$index}}5" data-value="5">
 						        <span class="rating-star">
 						          <i class="fa fa-star-o"> </i>
 						          <i class="fa fa-star"> </i>
 						        </span>
 						        <span class="ir">5 </span>
 						      </label>
-						      <input id="rating-4" name="rating" type="radio" value="4" />
-						      <label for="rating-4" data-value="4">
+						      <input id="{{$index}}4" name="rating" type="radio" value="4" ng-model="rateNum['score']"/>
+						      <label for="{{$index}}4" data-value="4">
 						        <span class="rating-star">
 						          <i class="fa fa-star-o"> </i>
 						          <i class="fa fa-star"> </i>
 						        </span>
 						        <span class="ir">4 </span>
 						      </label>
-						      <input id="rating-3" name="rating" type="radio" value="3" />
-						      <label for="rating-3" data-value="3">
+						      <input id="{{$index}}3" name="rating" type="radio" value="3" ng-model="rateNum['score']"/>
+						      <label for="{{$index}}3" data-value="3">
 						        <span class="rating-star">
 						          <i class="fa fa-star-o"></i>
 						          <i class="fa fa-star"></i>
 						        </span>
 						        <span class="ir">3 </span>
 						      </label>
-						      <input id="rating-2" name="rating" type="radio" value="2" />
-						      <label for="rating-2" data-value="2">
+						      <input id="{{$index}}2" name="rating" type="radio" value="2" ng-model="rateNum['score']"/>
+						      <label for="{{$index}}2" data-value="2">
 						        <span class="rating-star">
 						          <i class="fa fa-star-o"></i>
 						          <i class="fa fa-star"></i>
 						        </span>
 						        <span class="ir">2 </span>
 						      </label>
-						      <input id="rating-1" name="rating" type="radio" value="1" />
-						      <label for="rating-1" data-value="1">
+						      <input id="{{$index}}1" name="rating" type="radio" value="1" ng-model="rateNum['score']"/>
+						      <label for="{{$index}}1" data-value="1">
 						        <span class="rating-star">
 						          <i class="fa fa-star-o"></i>
 						          <i class="fa fa-star"></i>
@@ -112,20 +113,28 @@
 						        <span class="ir">1 </span>
 						      </label>
 						      <div class="form-action">
-						        <input class="btn-reset" type="reset" value="Reset" />   
+						        <input class="btn-reset" type="reset" value="reset" />   
 						      </div>
 						      <div class="form-output">
 						        ? / 5
 						      </div>
 						    </div>
 						  </fieldset>
+						  <input type="submit">
 						</form>
 					</div>
+					<div>{{rateNum['score']}}</div>
+					<div>{{posts.rating}}</div>
+					<div>{{posts.archieved}}</div>
+
+
 					<!-- end of rating area -->
 				<div class="post-username">
 					<h3>Post from: {{posts.name}}</h3><h6>{{posts.timestamp | date}}</h6>
 				</div>
-					<div class="archieve-post post-options">Save post to Archieves<span class="glyphicon glyphicon-book" ng-click="archievePost($index)"></span></div>
+
+					<div ng-hide="{{posts.hasArchieve}}" class="archieve-post post-options" ng-click="savePost($index);">Save post to Archieves<span class="glyphicon glyphicon-book"></span></div>
+
 					<div class="flagged-post post-options" ng-class="isFlagged">Flag post for Delete<span class="glyphicon glyphicon-flag" ng-click="flagPost($index)"></span></div>
 					<div class="view-more post-options">View full post</div>
 					<div class="post-body">
@@ -166,6 +175,7 @@
 				    <li ng-click="filter(1)">article</li>
 				    <li ng-click="filter(2)">photos</li>
 				    <li ng-click="filter(3)">videos</li>
+				    <li ng-click="filter(4)">3+ rating</li>
 				  </ul>
 				</div>
 				<h4>Sorting</h4>
@@ -187,9 +197,7 @@
 			</div>
 		</section>
 		<!-- end of options -->
-		<section id="right" class="column">
-			<p>????</p>
-		</section>
+		
 	</div>
 	<ng-include src=" '/html/footer.html' "></ng-include>
 </body>

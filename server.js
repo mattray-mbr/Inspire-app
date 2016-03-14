@@ -116,6 +116,10 @@ app.get('/api/getUserPosts/:userNAME/', routes.userPosts)
 
 app.get('/profiles/:userID', routes.getUser)
 
+app.post('/api/updateRating/', routes.updateRating)
+
+app.post('/api/saveArchieve/', routes.savePost)
+
 // Creating Server and Listening for Connections 
 var port = 3173
 app.listen(port, function(){

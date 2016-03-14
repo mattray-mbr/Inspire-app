@@ -97,16 +97,17 @@ function postItem(req, res){
 		var url = s3.getPublicUrlHttp('spark-storage', file.name)  // url is not correct
 	
 		var post = new posts({
-			name     : req.body.data.name,  
-			type     : req.body.data.type,
-			content  : req.body.data.message,
-			rating   : 0,
-			flagged  : false,
-			archieved: [],
-			visible  : true,
-			timestamp: req.body.data.timestamp,
-			files    : url, //url that comes back from s3
-			outsource: req.body.data.outsource,
+			name       : req.body.data.name,  
+			type       : req.body.data.type,
+			content    : req.body.data.message,
+			rating     : 0,
+			flagged    : false,
+			archieved  : [],
+			visible    : true,
+			timestamp  : req.body.data.timestamp,
+			files      : url, //url that comes back from s3
+			outsource  : req.body.data.outsource,
+			hasArchieve: false,
 		})
 		console.log('this is the post', post)
 		post.save(function(err, docs){
@@ -121,16 +122,17 @@ function postItem(req, res){
 function postItem2(req, res){
 	console.log('post without added upload file')
 	var post = new posts({
-		name     : req.body.name,  
-		type     : req.body.type,
-		content  : req.body.message,
-		rating   : 0,
-		flagged  : false,
-		archieved: [],
-		visible  : true,
-		timestamp: req.body.timestamp,
-		files    : '',
-		outsource: req.body.outsource,
+		name       : req.body.name,  
+		type       : req.body.type,
+		content    : req.body.message,
+		rating     : 0,
+		flagged    : false,
+		archieved  : [],
+		visible    : true,
+		timestamp  : req.body.timestamp,
+		files      : '',
+		outsource  : req.body.outsource,
+		hasArchieve: false,
 	})
 	post.save(function(err, docs){
 		if(err){
@@ -216,6 +218,22 @@ function userPosts(req, res){
 	})
 }
 
+function updateRating(req, res){
+	posts.update({_id: req.body._id}, req.body, function(err, updated){
+		posts.findOne({_id: req.body._id}, function(err, post){
+			res.send(post)
+		})
+	})
+}
+
+function savePost(req, res){
+	posts.update({_id: req.body._id}, req.body, function(err, updated){
+		posts.findOne({_id: req.body._id}, function(err, post){
+			res.send(post)
+		})
+	})
+}
+
 
 module.exports = {
 	addNewUser         : addNewUser,
@@ -233,5 +251,7 @@ module.exports = {
 	unflagPost         : unflagPost,
 	userArchieves      : userArchieves,
 	userPosts          : userPosts,
+	updateRating       : updateRating,
+	savePost           : savePost,
 	
 }

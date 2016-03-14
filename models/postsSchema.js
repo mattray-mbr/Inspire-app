@@ -11,6 +11,7 @@ var postSchema = mongoose.Schema({
 	timestamp    : {type: Number, required: true},
 	files        : {},
 	outsource    : {type: String},
+	hasArchieve  : {type: Boolean},
 
 })
 

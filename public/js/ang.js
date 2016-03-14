@@ -98,6 +98,10 @@ app.config(function($routeProvider){
 		$scope.$sce = $sce
 		var userNAME = window.location.pathname.split('/').pop()
 		$scope.feed = []
+		$scope.rateNum = {}
+		var archieveName
+
+		
 
 		console.log('profile controller')
 
@@ -109,6 +113,7 @@ app.config(function($routeProvider){
 		$http.get('/profiles/' + userNAME).then(function(serverResponse){
 			console.log(serverResponse)
 			$scope.loggedInUser = serverResponse.data
+			isArchieved()
 		})
 
 		
@@ -149,12 +154,16 @@ app.config(function($routeProvider){
 			console.log('setting filter')
 			for(var i = 0; i < $scope.feed.length; i++){
 				if(num === 0){
-					$scope.feed[i].visible = true
+					$scope.feed[i].visible = true //shows all posts
+				} else if(num === 4){
+					if($scope.feed[i].rating < 3){
+						$scope.feed[i].visible = false //hides all with rating below 3
+					}
 				} else if($scope.feed[i].type !== num){
 					//hide unwanted posts
 					$scope.feed[i].visible = false
 				} else {
-					$scope.feed[i].visible = true
+					$scope.feed[i].visible = true //
 				}
 			}
 		}
@@ -177,12 +186,28 @@ app.config(function($routeProvider){
 			  else 
 			    return 0;
 		}
+		function rating(a,b){
+			console.log('sorting by rating')
+			if (a.rating > b.rating)
+				return -1;
+			else if (a.rating < b.rating)
+				return 1;
+			else
+				return 0;
+		}
+
+		function average(a, b){
+			console.log('num 1 and 2',a, b)
+			return Math.round((a+b)/2)
+		}
 		//=====================
 		$scope.sortfeed = function(num){
 			if(num === 2){ //date added acending
 				$scope.feed.sort(oldest)
 			} else if(num === 3){ //date added decending
 				$scope.feed.sort(newest)
+			} else if(num === 1){ //best rating first
+				$scope.feed.sort(rating)
 			}
 			
 		}
@@ -198,12 +223,12 @@ app.config(function($routeProvider){
 			window.location.href = '/api/archieve/'+userNAME
 		}
 
-		$scope.archievePost = function(index){
-			console.log($scope.feed[index])
-			$http.post('/api/userArchieves', {username: userNAME, postID: $scope.feed[index]._id}).then(function(returnData){
-				console.log('info coming back from archieve update', returnData.data)
-			})
-		}
+		// $scope.archievePost = function(index){
+		// 	console.log($scope.feed[index])
+		// 	$http.post('/api/userArchieves', {username: userNAME, postID: $scope.feed[index]._id}).then(function(returnData){
+		// 		console.log('info coming back from archieve update', returnData.data)
+		// 	})
+		// }
 
 		$scope.flagPost = function(index){
 			console.log('flagging post for delete')
@@ -220,22 +245,117 @@ app.config(function($routeProvider){
 		$scope.userPosts = function(){
 			window.location.href = '/api/userPosts/' + userNAME
 		}
+
+		
+		$scope.ratePost = function(index){
+			var av
+			console.log('rating post', index)
+			console.log($scope.feed[index].rating)
+			console.log($scope.rateNum['score'])
+			var rateNum = parseInt($scope.rateNum['score'])
+			if($scope.feed[index].rating === 0){
+				av = rateNum
+			} else {
+				av = average($scope.feed[index].rating, rateNum)				
+			}
+			console.log(av)
+			$scope.feed[index].rating = av
+			$http.post('/api/updateRating/', $scope.feed[index]).then(function(returnData){
+				$scope.feed[index] = returnData.data
+			})
+		}
+
+		//change button if post is archieved
+		function isArchieved(){
+			// console.log('running?')
+			for(var i = 0; i < $scope.feed.length; i++){
+				// console.log('archieves??', $scope.feed[i].archieved)
+				for(var j = 0; j < $scope.feed[i].archieved.length; j++){
+					// console.log('???', $scope.feed[i].archieved[j])
+					// console.log(userNAME)
+					archieveName = $scope.feed[i].archieved[j]
+					// console.log('test')
+					if(archieveName === userNAME){
+						console.log('match')
+						$scope.feed[i].hasArchieve = true
+						console.log($scope.feed[i].hasArchieve)
+						 
+					}
+				}
+			}
+		}
+		
+
+		$scope.savePost = function(index){
+			console.log('saving post to user archieves')
+			$scope.feed[index].archieved.push(userNAME)
+			console.log($scope.feed[index].archieved)
+			$http.post('/api/saveArchieve/', $scope.feed[index]).then(function(returnData){
+				$scope.feed[index] = returnData.data
+				isArchieved()
+			})
+			
+		}
+
+
 	}])
+
+
+
+
+
+
 
 	app.controller('archieveController', ['$scope', '$http', function($scope, $http){
 		$scope.feed = []
+		var archieveName
 
 		var userNAME = window.location.pathname.split('/').pop()
 		//send username with request to have something to match with in the database
-		$http.get('/api/getArchievePosts/:userNAME/').then(function(returnData){
-			console.log(returnData)
-			if(returnData.data === []){
-				$scope.feedError = true;
-			} else {
-				$scope.feed = returnData.data
-			}
+		// $http.get('/api/getArchievePosts/:userNAME/').then(function(returnData){
+		// 	console.log(returnData)
+		// 	if(returnData.data === []){
+		// 		$scope.feedError = true;
+		// 	} else {
+		// 		$scope.feed = returnData.data
+		// 	}
+		// })
+
+		//automatically gets posts in the feed
+		$http.get('/api/getposts').then(function(returnData){
+			$scope.feed = returnData.data
 		})
+
+		$http.get('/profiles/' + userNAME).then(function(serverResponse){
+			console.log(serverResponse)
+			$scope.loggedInUser = serverResponse.data
+			isArchieved()
+		})
+
+		//change button if post is archieved
+		function isArchieved(){
+			// console.log('running?')
+			for(var i = 0; i < $scope.feed.length; i++){
+				// console.log('archieves??', $scope.feed[i].archieved)
+				for(var j = 0; j < $scope.feed[i].archieved.length; j++){
+					// console.log('???', $scope.feed[i].archieved[j])
+					// console.log(userNAME)
+					archieveName = $scope.feed[i].archieved[j]
+					// console.log('test')
+					console.log(archieveName, userNAME)
+					if(archieveName !== userNAME){
+						console.log('match')
+						$scope.feed[i].visible = false
+						console.log($scope.feed[i].visible) 
+					}
+				}
+			}
+		}
 	}])
+
+
+
+
 
 	app.controller('userPostsController', ['$scope', '$http', function($scope, $http){
 		$scope.feed = []
