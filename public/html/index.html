@@ -3,7 +3,14 @@
 	<div class="login-border" ng-hide="loggedIn"> <!-- shows login if no user logged in -->
 	<!-- button to call modal -->
 	<div class="container-fluid home-content">
-	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Sign Up</button>
+	<div class="home-info">
+		<button type="button" class="btn btn-primary btn-lg home-signup" data-toggle="modal" data-target="#myModal">Sign Up</button>
+		<div class="home-bio">
+			<p>Art Spark is a social sharing platform designed specifically for creators and artists. Organized in a consise and minimal fasion, find what your looking for and get back to doing what you love. Post whatever inspires you as a creator. Look for inspiration.</p>
+		</div>
+		<a href="/#/categories"><button class="btn btn-lg home-browse">Browse Categories</button></a>
+		<a href="/#/about"><button class="btn btn-lg home-browse" ng-click="profile()">Learn More</button></a>
+	</div>
 	<!-- modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
@@ -15,7 +22,7 @@
 		      <div class="modal-body">
 				<!-- sign up new user  -->
 		        <form class="signup-form" ng-submit="signUp()">
-					<h2>Sign up</h2>
+					<h2 class="home-signup">Sign up</h2>
 					<label>username</label>
 					<input type="text" ng-model="newUser.username">
 					<label>email</label>
@@ -34,7 +41,6 @@
 		  </div>
 		<!-- end modal -->
 	</div>
-	<h3>{{checkUser}}</h3>
-	<a href="/#/categories"><button class="btn btn-info btn-lg">browse Categories</button></a>
-	<button class="btn btn-info" ng-click="profile()">profile</button>
+	
+	
 	</div> <!-- home-content -->
