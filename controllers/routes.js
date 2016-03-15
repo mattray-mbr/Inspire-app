@@ -6,7 +6,7 @@ var s3 = require('s3')
 
 s3Client = s3.createClient({
 	s3Options: {
-		
+	 
 	}
 })
 

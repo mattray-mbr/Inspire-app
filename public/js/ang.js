@@ -208,7 +208,7 @@ app.config(function($routeProvider){
 					if(!returnData.data.user){
 						console.log('no user data retrieved')
 						//triger warning that no user was found
-						$scope.invalid = "Please enter a valid Username or Password"
+						$scope.invalid = "Username or Password is not valid"
 						$scope.user.username = ''
 						$scope.user.password = ''
 					}else {
@@ -219,10 +219,11 @@ app.config(function($routeProvider){
 				})
 			} else {
 				console.log('no info in user page')
-				$scope.invalid = "Please enter a valid Username or Password"
+				$scope.invalid = "Username or Password is not valid"
 				$scope.user.username = ''
 				$scope.user.password = ''
 			}
+		initial()
 		}
 
 		$scope.logOut = function(){
@@ -275,8 +276,8 @@ app.controller('adminController', ['$scope', '$http', function($scope, $http){
 
 }])
 
-app.controller('anonController', ['$scope', '$http', function($scope, $http){
-
+app.controller('anonController', ['$scope', '$http', '$sce', function($scope, $http, $sce){
+	$scope.$sce = $sce
 	$scope.feed = []
 
 			//automatically gets posts in the feed
@@ -284,6 +285,17 @@ app.controller('anonController', ['$scope', '$http', function($scope, $http){
 				$scope.feed = returnData.data
 				// console.log($scope.feed)
 			})
+
+		$scope.signUp = function(){
+			var person = {
+				username: $scope.newUser.username,
+				email: $scope.newUser.email,
+				password: $scope.newUser.password,
+			}
+			$http.post('/api/userBase', person).then(function(returnData){
+				$scope.display = returnData.data
+			})
+		}
 
 		
 

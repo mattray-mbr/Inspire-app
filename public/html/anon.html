@@ -1,43 +1,107 @@
 <!-- anon template for struture of each category -->
-	<div id="main-container">
-		<section id="content" class="column">
-			<div ng-repeat="posts in feed">
-				<div class="posts" ng-show="posts.visible">
-					<h3 class="post-user">Post from: {{posts.name}}</h3>
-					<p>{{posts.type}}</p>
-					<h4 class="post-content">{{posts.content}}</h4>
-					<div class="rating-area">
-						<div>{{posts.rating}}</div>
-						<button>{{posts.flagged}}</button>
-						<button>{{posts.archived}}</button>
+<div id="main-container">
+	<section id="content" class="column">
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-signup btn-lg"><a data-toggle="modal" data-target="#otherModal">sign up </a>or log in to interact with posts</button>
+			<div class="modal fade" id="otherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				      </div>
+				      <div class="modal-body">
+						<!-- add a new post  -->
+				        <form class="signup-form" ng-submit="signUp()">
+							<h2 class="home-signup">Sign up</h2>
+							<label>username</label>
+							<input type="text" ng-model="newUser.username">
+							<label>email</label>
+							<input type="email" ng-model="newUser.email">
+							<label>password</label>
+							<input type="password" ng-model="newUser.password">
+							<br><br>
+							<input type="submit" class="btn btn-success" value="sign Up">
+						</form>
+						<!-- end of post form -->
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- end of sign up modal -->
+		<div ng-repeat="posts in feed track by $index">
+			<div class="posts-container" ng-show="posts.visible">
+			<!-- drop in rating area -->
+				<div class="post-header">
+					<div class="rating-area"></div>
+				<div class="post-username">
+				<div id="triangle-topleft2"></div>
+					<div id="triangle-topleft"></div>
+					<h3 class="post-title">Post from: {{posts.name}}</h3>
+				</div>
+				</div> <!-- end post header -->
+				<div class="post-body">
+					<div class="post-content">
+						<h4 class="post-content-head">Description</h4>
+						<p class="post-description">{{posts.content}}</p>
+					</div>
+					<div class="post-media">
+						<img class="img-responsive" src="{{posts.files}}" alt="">
+						<iframe  ng-hide="ifEmbeded" class="post-embed" src="{{$sce.trustAsResourceUrl(posts.outsource)}}"></iframe>
+					</div>
+				</div> <!-- end of post body -->
+				<div class="post-nav">
+					<div class="post-navleft">
+						<div id="triangle-bottomleft"></div>
+						<div id="triangle-bottomleft2"></div>
+					</div>
+					<div class="post-navright">
+						<h6 class="post-date">Posted on: {{posts.timestamp | date}}</h6>
 					</div>
 				</div>
 			</div>
-		</section>
-		<!-- fine tuning options -->
-		<section id="options" class="column">
-			<p>filter and search features</p>
-			<div class="filter">
-				<div class="dropdown">
-				  <a id="dLabel" data-target="" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Posts by:<span class="caret"></span></a>
-				  <ul class="dropdown-menu" aria-labelledby="dLabel">
-				  	<li ng-click="filter(0)">none</li>
-				    <li ng-click="filter(1)">article</li>
-				    <li ng-click="filter(2)">photos</li>
-				    <li ng-click="filter(3)">videos</li>
-				  </ul>
-				</div>
+		</div>
+	</section>
+	<!-- fine tuning options -->
+	<section id="options" class="column">
+		<h3 class="options-header">Post Options</h3>
+		<div class="search">
+			<form  class="search-form" ng-submit="searchform()">
+				<input class="search-bar" type="text" placeholder="keyword" ng-model="searchword">
+				<input class="search-btn" type="submit" value="Search">
+			</form>
+		</div>
+		<div class="filter">
+			<h4 class="options-subtitle">Filter</h4>
+			<div class="line-break"></div>
+			<!-- <button>By date Added</button>
+			<button>By rating</button> -->
+			<div class="dropdown">
+			  <a id="dLabel" data-target="" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Posts type:<span class="caret"></span></a>
+			  <ul class="dropdown-menu" aria-labelledby="dLabel">
+			  	<li ng-click="filter(0)">none</li>
+			    <li ng-click="filter(1)">article</li>
+			    <li ng-click="filter(2)">photos</li>
+			    <li ng-click="filter(3)">videos</li>
+			    <li ng-click="filter(4)">3+ rating</li>
+			  </ul>
 			</div>
-			<div class="search">
-				<form ng-submit="searchform()">
-					<input type="text" placeholder="search" ng-model="searchword">
-					<input type="submit" value="Search">
-				</form>
+			<h4 class="options-subtitle options-sort">Sort</h4>
+			<div class="line-break"></div>
+			<div class="dropdown">
+			  <a id="sortLabel" data-target="" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort Posts type:<span class="caret"></span></a>
+			  <ul class="dropdown-menu" aria-labelledby="sortLabel">
+			  	<li ng-click="sortfeed(0)">default</li>
+			    <li ng-click="sortfeed(1)">rating</li>
+			    <li ng-click="sortfeed(2)">date Added</li>
+			    <li ng-click="sortfeed(3)">Newest</li>
+			  </ul>
 			</div>
-		</section>
-		<!-- end of options -->
-		<!-- if removed does this screw page layout up -->
-		<section id="right" class="column"> 
-			<p>????</p>
-		</section>
-	</div>
+		</div>
+		
+	</section>
+	<!-- end of options -->
+</div>

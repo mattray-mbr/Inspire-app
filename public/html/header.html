@@ -17,9 +17,9 @@
 				<input type="submit" class="btn login-btn" value="Log In">
 			</div>
 		</form>
-		<div ng-show="ifUser">
-			<p>currently logged in as {{userNAME}}</p>
-			<a href="/api/logOut" ><button class="btn btn-warning pull-right">Log Out</button></a>
+		<div ng-show="ifUser" class="logout">
+			<p class="logged-in-as">currently logged in as {{userNAME}}</p>
+			<a href="/api/logOut" ><button class="btn btn-logout pull-right">Log Out</button></a>
 		</div>
 	</div>
 </header>
