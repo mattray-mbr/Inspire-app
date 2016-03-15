@@ -143,7 +143,7 @@ app.controller('profileController', ['$scope', '$http', 'Upload', '$sce', functi
 				//do I need to return anything back?
 				console.log(returnData.data)
 			})
-			$scope.isFlagged = 'isFlagged';
+			
 		}
 
 		$scope.userPosts = function(){
@@ -189,8 +189,8 @@ app.controller('profileController', ['$scope', '$http', 'Upload', '$sce', functi
 			}
 		}
 		
-
-		$scope.savePost = function(index){
+		//depricated for now
+		$scope.savePost1 = function(index){
 			console.log('saving post to user archieves')
 			$scope.feed[index].archieved.push(userNAME)
 			console.log($scope.feed[index].archieved)

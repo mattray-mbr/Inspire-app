@@ -144,8 +144,8 @@
 					</div> <!-- end of post body -->
 					<div class="post-nav">
 						<div class="post-navleft">
-							<div ng-hide="{{posts.hasArchieve}}" class="archieve-post post-options" ng-click="savePost($index);">Save<span class="glyphicon glyphicon-book"></span></div>
-							<div class="flagged-post post-options" ng-class="isFlagged">Report<span class="glyphicon glyphicon-flag" ng-click="flagPost($index)"></span></div>
+							<div ng-hide="{{posts.hasArchieve}}" class="archieve-post post-options" ng-click="savePost($index); posts.isSaved='saved'" ng-class="posts.isSaved">Save<span class="glyphicon glyphicon-book"></span></div>
+							<div class="flagged-post post-options" ng-class="posts.isFlagged">Report<span class="glyphicon glyphicon-flag" ng-click="flagPost($index); posts.isFlagged='active'"></span></div>
 							<div class="view-more post-options">full size</div>
 							<div id="triangle-bottomleft"></div>
 							<div id="triangle-bottomleft2"></div>

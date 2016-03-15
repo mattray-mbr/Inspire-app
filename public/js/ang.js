@@ -144,7 +144,8 @@ app.config(function($routeProvider){
 
 
 
-	app.controller('userPostsController', ['$scope', '$http', function($scope, $http){
+	app.controller('userPostsController', ['$scope', '$http', '$sce',function($scope, $http, $sce){
+		$scope.$sce = $sce
 		$scope.feed = []
 		var userNAME = window.location.pathname.split('/').pop()
 
@@ -158,14 +159,21 @@ app.config(function($routeProvider){
 		})
 
 		$scope.deletePost = function(index){
-		console.log('deleting a post')
-		$http.post('/api/deletePost/', $scope.feed[index]).then(function(returnData){
-			console.log(returnData)
-		})
+			console.log('deleting a post')
+			$http.post('/api/deletePost/', $scope.feed[index]).then(function(returnData){
+				console.log(returnData)
+			})
 		//hide post that was just deleted
-	}
+			$scope.feed[index].visible = false
+		}
 
+		$scope.changeCategory = function(){
+			window.location.href= '/#/categories'
+		}
 
+		$scope.viewAll = function(){
+			window.location.href = '/profiles/'+userNAME
+		}
 
 	}])
 
@@ -279,6 +287,29 @@ app.controller('adminController', ['$scope', '$http', function($scope, $http){
 app.controller('anonController', ['$scope', '$http', '$sce', function($scope, $http, $sce){
 	$scope.$sce = $sce
 	$scope.feed = []
+	$scope.user = {}
+
+
+	function initial(){	 //put inside a function so that I can call it on login button and sign up
+			$http({
+				method  : 'GET',
+				url     : '/api/me',
+			}).then(function(returnData){
+	            console.log('user info', returnData)
+	            if (returnData.data.user) {
+	            	console.log('user name', returnData.data.user.username)
+	            	$scope.userNAME = returnData.data.user.username
+	                $scope.noUser = false;
+	                $scope.ifUser = true;
+	                //redirect to profile page here
+	                window.location.href = '/api/profiles/'+$scope.userNAME
+	            } else {
+	            	console.log('no user found')
+	            	//no user so stay on page
+	            }
+	        })
+		}
+		initial()
 
 			//automatically gets posts in the feed
 			$http.get('/api/getposts').then(function(returnData){
@@ -294,6 +325,8 @@ app.controller('anonController', ['$scope', '$http', '$sce', function($scope, $h
 			}
 			$http.post('/api/userBase', person).then(function(returnData){
 				$scope.display = returnData.data
+				console.log('help')
+				initial() 
 			})
 		}
 
