@@ -33,30 +33,35 @@
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+			        <h4 class="modal-title" id="myModalLabel">Post Your Inspiring Story</h4>
 			      </div>
 			      <div class="modal-body">
 					<!-- add a new post  -->
-			        <form ng-submit="newPost()">
-			        	<label>Post type(num)</label>
-			        	<input type="text" ng-model="post.type">
-			        	<label>message</label>
-			        	<input type="text" ng-model="post.message">
-			        	<label>upload images</label>
-			        	<input 
-			        		type="file" 
-			        		ng-model="post.files"
-			        		ngf-pattern=" 'image/*' "
-			        		ngf-accept=" 'image/*' "
-			        		ngf-select>
-			        	<input type="submit" class="btn btn-info">
-			        	<label>link video or article</label>
-			        	<input type="text" ng-model="post.outsource">
+			        <form class="signup-form" ng-submit="newPost()">
+			        	<!-- <label>Post type(num)</label> -->
+			        	<!-- <input type="text" ng-model="post.type"> -->
+			        	<label>Description</label>
+			        	<textarea cols="60" rows="10" ng-model="post.message"></textarea>
+			        	<div class="form-break">
+			        		<label>upload images</label>
+				        	<input 
+				        		type="file" 
+				        		ng-model="post.files"
+				        		ngf-pattern=" 'image/*' "
+				        		ngf-accept=" 'image/*' "
+				        		ngf-select>
+			        	</div>
+			        	<div class="or">OR</div>
+			        	<div class="form-break">
+			        		<label>Link a video/article</label>
+			        		<input type="text" ng-model="post.outsource">
+			        	</div>
+			        	<input type="submit" class="btn modal-btn" value="Submit Post">
 			        </form>
 					<!-- end of post form -->
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-close" data-dismiss="modal">Close</button>
 			      </div>
 			    </div>
 			  </div>
@@ -144,9 +149,9 @@
 					</div> <!-- end of post body -->
 					<div class="post-nav">
 						<div class="post-navleft">
-							<div ng-hide="{{posts.hasArchieve}}" class="archieve-post post-options" ng-click="savePost($index); posts.isSaved='saved'" ng-class="posts.isSaved">Save<span class="glyphicon glyphicon-book"></span></div>
-							<div class="flagged-post post-options" ng-class="posts.isFlagged">Report<span class="glyphicon glyphicon-flag" ng-click="flagPost($index); posts.isFlagged='active'"></span></div>
-							<div class="view-more post-options">full size</div>
+							<div ng-hide="{{posts.hasArchieve}}" class="archieve-post post-options" ng-click="savePost($index); posts.isSaved='saved'" ng-class="posts.isSaved">Save <span class="glyphicon glyphicon-book"></span></div>
+							<div class="flagged-post post-options" ng-class="posts.isFlagged">Report <span class="glyphicon glyphicon-flag" ng-click="flagPost($index); posts.isFlagged='active'"></span></div>
+							<div class="view-more post-options">Full Size <span class="glyphicon glyphicon-resize-full"></span></div>
 							<div id="triangle-bottomleft"></div>
 							<div id="triangle-bottomleft2"></div>
 						</div>

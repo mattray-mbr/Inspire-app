@@ -98,7 +98,7 @@ function postItem(req, res){
 	
 		var post = new posts({
 			name       : req.body.data.name,  
-			type       : req.body.data.type,
+			type       : 2,
 			content    : req.body.data.message,
 			rating     : 0,
 			flagged    : false,
@@ -114,7 +114,7 @@ function postItem(req, res){
 			if(err){
 				console.log('error saving post in db', err)
 			}
-			res.send(docs)//send docs or just post?
+			res.send(post)//send docs or just post?
 		})
 	})
 }
@@ -123,7 +123,7 @@ function postItem2(req, res){
 	console.log('post without added upload file')
 	var post = new posts({
 		name       : req.body.name,  
-		type       : req.body.type,
+		type       : 3,
 		content    : req.body.message,
 		rating     : 0,
 		flagged    : false,

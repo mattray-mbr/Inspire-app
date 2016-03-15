@@ -245,7 +245,7 @@ app.config(function($routeProvider){
 
 	}])
 
-app.controller('adminController', ['$scope', '$http', function($scope, $http){
+app.controller('adminController', ['$scope', '$http', '$sce', function($scope, $http, $sce){
 	$scope.feed = []
 
 	console.log('admin controller')
@@ -272,6 +272,7 @@ app.controller('adminController', ['$scope', '$http', function($scope, $http){
 			console.log(returnData)
 		})
 		//hide post that was just deleted
+		$scope.feed[index].visible = false
 	}
 
 	$scope.unflagPost = function(index){
