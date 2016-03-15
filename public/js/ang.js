@@ -172,7 +172,7 @@ app.config(function($routeProvider){
 		}
 
 		$scope.viewAll = function(){
-			window.location.href = '/profiles/'+userNAME
+			window.location.href = '/api/profiles/'+userNAME
 		}
 
 	}])
@@ -224,6 +224,7 @@ app.config(function($routeProvider){
 						$scope.display = returnData.data
 						$scope.ifUser = true;
 					}
+					initial()
 				})
 			} else {
 				console.log('no info in user page')
@@ -231,7 +232,7 @@ app.config(function($routeProvider){
 				$scope.user.username = ''
 				$scope.user.password = ''
 			}
-		initial()
+		
 		}
 
 		$scope.logOut = function(){
