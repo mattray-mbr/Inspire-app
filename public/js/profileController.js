@@ -50,6 +50,8 @@ app.controller('profileController', ['$scope', '$http', 'Upload', '$sce', functi
 					files : $scope.post.files,
 					data  : item,
 					}
+				}).then(function(returnData){
+					$scope.feed.push(returnData.data)
 				})
 			}			
 		}

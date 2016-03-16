@@ -17,6 +17,7 @@
 	<script src="/js/profileController.js"></script>
 </head>
 <body>
+
 	<div ng-controller="headerController">
 		<ng-include src=" '/html/header.html' "></ng-include>
 	</div>
@@ -72,7 +73,7 @@
 				<!-- drop in rating area -->
 					<div class="post-header">
 						<div class="rating-area">
-							<form class="rating-form" ng-submit="ratePost($index)">
+							<!-- <form class="rating-form" ng-submit="ratePost($index)">
 							  <fieldset class="form-group">
 							    <legend class="form-legend">Rating: </legend>
 							    <div class="form-item">  
@@ -125,7 +126,7 @@
 							    </div>
 							  </fieldset>
 							  <input class="submit-btn" type="submit">
-							</form>
+							</form> -->
 						</div>
 					<!-- <div>{{rateNum['score']}}</div>
 					<div>{{posts.rating}}</div>

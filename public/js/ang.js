@@ -338,12 +338,16 @@ app.controller('anonController', ['$scope', '$http', '$sce', function($scope, $h
 			console.log('setting filter')
 			for(var i = 0; i < $scope.feed.length; i++){
 				if(num === 0){
-					$scope.feed[i].visible = true
+					$scope.feed[i].visible = true //shows all posts
+				} else if(num === 4){
+					if($scope.feed[i].rating < 3){
+						$scope.feed[i].visible = false //hides all with rating below 3
+					}
 				} else if($scope.feed[i].type !== num){
 					//hide unwanted posts
 					$scope.feed[i].visible = false
 				} else {
-					$scope.feed[i].visible = true
+					$scope.feed[i].visible = true //
 				}
 			}
 		}
@@ -353,6 +357,50 @@ app.controller('anonController', ['$scope', '$http', '$sce', function($scope, $h
 			for(var i = 0; i < $scope.feed.length; i++){
 				//find all posts associated with the searchword
 			}
+		}
+
+		function oldest(a,b){
+			console.log('sorting by oldest')
+			if (a.timestamp < b.timestamp)
+			    return -1;
+			  else if (a.timestamp > b.timestamp)
+			    return 1;
+			  else 
+			    return 0;
+		}
+		function newest(a,b){
+			console.log('sorting by newest')
+			if (a.timestamp > b.timestamp)
+			    return -1;
+			  else if (a.timestamp < b.timestamp)
+			    return 1;
+			  else 
+			    return 0;
+		}
+		function rating(a,b){
+			console.log('sorting by rating')
+			if (a.rating > b.rating)
+				return -1;
+			else if (a.rating < b.rating)
+				return 1;
+			else
+				return 0;
+		}
+
+		function average(a, b){
+			console.log('num 1 and 2',a, b)
+			return Math.round((a+b)/2)
+		}
+		//=====================
+		$scope.sortfeed = function(num){
+			if(num === 2){ //date added acending
+				$scope.feed.sort(oldest)
+			} else if(num === 3){ //date added decending
+				$scope.feed.sort(newest)
+			} else if(num === 1){ //best rating first
+				$scope.feed.sort(rating)
+			}
+			
 		}
 
 }])
