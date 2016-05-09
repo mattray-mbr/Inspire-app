@@ -92,6 +92,10 @@ app.config(function($routeProvider){
 			initial()
 		}
 
+		$scope.requestCategory = function(){
+			console.log("test")
+		}
+
 	}])
 
 
@@ -247,6 +251,7 @@ app.config(function($routeProvider){
 
 app.controller('adminController', ['$scope', '$http', '$sce', function($scope, $http, $sce){
 	$scope.feed = []
+	$scope.$sce = $sce
 
 	console.log('admin controller')
 	$http({

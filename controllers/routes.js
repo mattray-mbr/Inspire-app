@@ -20,7 +20,7 @@ function addNewUser(req, res){
 				username : req.body.username,
 				email    : req.body.email,
 				password : hash,
-				admin    : true,
+				admin    : false,
 			})
 			person.save(function(saveErr, user){
 				if (saveErr) {res.send({'person save error':saveErr}) }
@@ -120,10 +120,10 @@ function postItem(req, res){
 }
 
 function postItem2(req, res){
-	console.log('post without added upload file')
+	console.log('post without added upload file')     // 
 	var post = new posts({
 		name       : req.body.name,  
-		type       : 3,
+		type       : 1,
 		content    : req.body.message,
 		rating     : 0,
 		flagged    : false,
