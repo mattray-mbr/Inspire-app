@@ -93,7 +93,12 @@ app.config(function($routeProvider){
 		}
 
 		$scope.requestCategory = function(){
-			console.log("test")
+			var request = {
+				name: $scope.category.name,
+				reason: $scope.category.explanation,
+			}
+			console.log("requesting", request)
+			$scope.requestPending = true
 		}
 
 	}])

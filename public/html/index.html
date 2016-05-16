@@ -21,7 +21,7 @@
 		      </div>
 		      <div class="modal-body">
 				<!-- sign up new user  -->
-		        <form class="signup-form" ng-submit="signUp()">
+		        <form class="form" ng-submit="signUp()">
 					<label>username</label>
 					<input type="text" ng-model="newUser.username">
 					<label>email</label>
@@ -29,7 +29,7 @@
 					<label>password</label>
 					<input type="password" ng-model="newUser.password">
 					<br><br>
-					<input type="submit" class="btn modal-btn" value="sign Up">
+					<input type="submit" class="btn modal-btn" id="request-btn" value="sign Up">
 				</form>
 				<!-- end of sign up form -->
 		      </div>
@@ -37,9 +37,9 @@
 		        <button type="button" class="btn btn-close" data-dismiss="modal">Close</button>
 		      </div>
 		    </div>
-		  </div>
-		<!-- end modal -->
+		</div>
 	</div>
+	<!-- end modal -->
 	
 	
 	</div> <!-- home-content -->

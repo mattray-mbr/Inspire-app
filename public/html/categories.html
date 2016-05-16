@@ -46,7 +46,38 @@
 		<div class="angled-head">
 			<div class="triangle-topright"></div>
 			<div class="triangle-topleft"></div>
-			<h3 class="alt-header">Can't find what your looking for? Request for a new category!<button class="btn btn-blue btn-xs btn-request" ng-click="requestCategory()">Request</button></h3>
+			<h3 class="alt-header">Can't find what your looking for? Request for a new category!<button class="btn btn-blue btn-xs btn-request" data-toggle="modal" data-target="#categoryModal">Request</button></h3>
 		</div>
 	</div>
+	<!--request category model -->
+	<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">New Category Request Form</h4>
+		      </div>
+		      <div class="modal-body">
+				<!-- sign up new user  -->
+		        <form class="request-form form" ng-submit="requestCategory()" ng-hide="requestPending">
+					<label>Name of Category</label>
+					<input type="text" ng-model="category.name">
+					<label>Reason for Requesting</label>
+					<textarea ng-model="category.explanation" rows="6"></textarea>
+					<br><br>
+					<input type="submit" class="btn modal-btn" id="request-btn" value="Submit">
+				</form>
+				<!-- end of sign up form -->
+				<!-- pending message -->
+				<div ng-show="requestPending">
+					<h4>Your category request for <span class="modalCategory">{{category.name}}</span> is now pending. Your request will be reviewed by and admin and a decision will be made shortly. Please check back later.</h4>
+				</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-close" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		</div>
+	</div>
+	<!-- end of model -->
 </div>
