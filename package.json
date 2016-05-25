@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node server.js"
   },
   "author": "",
@@ -12,16 +12,19 @@
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.0",
+    "chai": "^3.5.0",
     "compass": "^0.1.1",
     "connect-multiparty": "^2.0.0",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
+    "mocha": "^2.5.2",
     "mongoose": "^4.4.5",
     "morgan": "^1.7.0",
     "ng-file-upload": "^12.0.4",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "s3": "^4.4.0"
+    "s3": "^4.4.0",
+    "sinon": "^1.17.4"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
