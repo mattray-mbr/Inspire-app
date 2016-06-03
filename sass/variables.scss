@@ -1,0 +1,19 @@
+//declare all variable here
+
+//font imports
+@import url(https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+$text-color         : #2b2b2b; //very dark gray
+$text-color-lite    : lighten($text-color, 50%);
+$header-font        : Lora;
+$body-font          : Ubuntu;
+
+$blue               : lighten(#14b5b5, 7%);
+$purple             : darken(#5d3c4e, 3%);
+$yellow             : #fff;
+$gray               : #4d4d4d;
+$light-background   : #ebebeb;
+
+$small-break        : 768px;
+$xs-break           : 480px;
